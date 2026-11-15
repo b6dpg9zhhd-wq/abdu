@@ -48,9 +48,7 @@
         <button class="period-btn" onclick="showPeriod('week', this)">Неделя</button>
         <button class="period-btn" onclick="showPeriod('month', this)">Месяц</button>
         <button class="period-btn active" onclick="showPeriod('all', this)">Всё</button>
-    </div>
-    
-    <div id="block-today" class="grid" style="display: none;">
+    </div><div id="block-today" class="grid" style="display: none;">
         <div class="card top-1" style="border-top-color: #ffd700;">
             <div class="card-top">
                 <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/7124781347.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
@@ -70,7 +68,7 @@
                 <div class="avatar-box" style="border-color: #c0c0c0;"><img src="avatars/852190250.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="info">
                     <div class="name" style="color: #c0c0c0;">𝒜𝓁𝓎𝒶</div>
-                    <div class="val">14 ген.</div>
+                    <div class="val">16 ген.</div>
                 </div>
             </div>
             <div class="compliment-box" style="border-left-color: #c0c0c0;" onclick="editQuote(this, '𝒜𝓁𝓎𝒶')">
@@ -126,7 +124,7 @@
                 <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/852190250.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
                 <div class="info">
                     <div class="name" style="color: #ffd700;">𝒜𝓁𝓎𝒶</div>
-                    <div class="val">159 ген.</div>
+                    <div class="val">161 ген.</div>
                 </div>
             </div>
             <div class="compliment-box" style="border-left-color: #ffd700;" onclick="editQuote(this, '𝒜𝓁𝓎𝒶')">
@@ -330,11 +328,7 @@
                 <span class="comp-text">Машина мощности 🚀</span>
             </div>
         </div>
-        </div>
-    
-    <div class="footer">Мур-мур, вы лучшие! 🐾</div>
-    
-    <script>
+        </div><script>
         // Загружаем локальные правки при старте
         const localQuotes = JSON.parse(localStorage.getItem('custom_quotes') || '{}');
         
