@@ -7,7 +7,7 @@ import json
 import os
 import hashlib
 from datetime import datetime, timedelta
-from config import DB_PATH
+DB_PATH = "/root/abdu/sales.db"
 
 REPO_DIR = "/root/abdu/site"
 
