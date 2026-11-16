@@ -40,6 +40,7 @@
 
         .name { font-size: 14px; font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         .val { font-size: 16px; font-weight: 900; color: #00e676; }
+        #logout-btn { margin-top: 20px; padding: 8px 16px; background: #333; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -65,7 +66,6 @@
             <div class="tab" onclick="showSection('milk', this)">🥛 Молоко</div>
             <div class="tab" onclick="showSection('top', this)">🏆 Топ</div>
         </div>
-        <!-- ... (секции с периодами и сетками) ... -->
         <div id="section-sales" class="section active">
             <div class="periods" id="periods-sales">
                 <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
@@ -75,42 +75,74 @@
             </div>
             <div id="grid-sales" class="grid"></div>
         </div>
-        <!-- Остальные секции аналогично (можно скопировать из предыдущего кода) -->
+        <div id="section-tasks" class="section">
+            <div class="periods" id="periods-tasks">
+                <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+                <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+                <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+                <div class="period" onclick="setPeriod('all', this)">Всё</div>
+            </div>
+            <div id="grid-tasks" class="grid"></div>
+        </div>
+        <div id="section-milk" class="section">
+            <div class="periods" id="periods-milk">
+                <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+                <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+                <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+                <div class="period" onclick="setPeriod('all', this)">Всё</div>
+            </div>
+            <div id="grid-milk" class="grid"></div>
+        </div>
+        <div id="section-top" class="section">
+            <div class="periods" id="periods-top">
+                <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+                <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+                <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+                <div class="period" onclick="setPeriod('all', this)">Всё</div>
+            </div>
+            <div id="grid-top" class="grid"></div>
+        </div>
+        <button id="logout-btn" onclick="logout()">Выйти</button>
     </div>
 
     <script>
-        const API_URL = "http://144.31.28.21:8000"; // Замени на свой IP
+        const API_URL = "http://144.31.28.21:8000"; // Замени на реальный IP сервера
         let isAuthorized = false;
         let userId = null;
         let data = {};
         let currentSection = 'sales';
         let currentPeriod = 'today';
 
-        // Проверяем, есть ли сохраненный токен
+        // Проверяем сохраненный токен
         const savedToken = localStorage.getItem('auth_token');
         if (savedToken) {
             userId = parseInt(savedToken);
             isAuthorized = true;
             showMainScreen();
+            loadData();
         }
 
         async function sendCode() {
             const id = document.getElementById('login-id').value;
             if (!id) return alert('Введи ID');
             document.getElementById('login-status').textContent = 'Отправляю...';
-            const res = await fetch(API_URL + '/api/send_code', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: parseInt(id)})
-            });
-            const json = await res.json();
-            if (res.ok) {
-                document.getElementById('login-code').style.display = 'block';
-                document.getElementById('btn-verify').style.display = 'block';
-                document.getElementById('login-status').textContent = 'Код отправлен в ЛС';
-                userId = parseInt(id);
-            } else {
-                document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+            try {
+                const res = await fetch(API_URL + '/api/send_code', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({user_id: parseInt(id)})
+                });
+                const json = await res.json();
+                if (res.ok) {
+                    document.getElementById('login-code').style.display = 'block';
+                    document.getElementById('btn-verify').style.display = 'block';
+                    document.getElementById('login-status').textContent = 'Код отправлен в ЛС';
+                    userId = parseInt(id);
+                } else {
+                    document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+                }
+            } catch (e) {
+                document.getElementById('login-status').textContent = 'Сервер недоступен';
             }
         }
 
@@ -118,19 +150,23 @@
             const code = document.getElementById('login-code').value;
             if (!code) return alert('Введи код');
             document.getElementById('login-status').textContent = 'Проверяю...';
-            const res = await fetch(API_URL + '/api/verify_code', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({user_id: userId, code: code})
-            });
-            const json = await res.json();
-            if (res.ok) {
-                localStorage.setItem('auth_token', json.token);
-                isAuthorized = true;
-                showMainScreen();
-                loadData();
-            } else {
-                document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+            try {
+                const res = await fetch(API_URL + '/api/verify_code', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({user_id: userId, code: code})
+                });
+                const json = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('auth_token', json.token);
+                    isAuthorized = true;
+                    showMainScreen();
+                    loadData();
+                } else {
+                    document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+                }
+            } catch (e) {
+                document.getElementById('login-status').textContent = 'Сервер недоступен';
             }
         }
 
@@ -139,10 +175,17 @@
             document.getElementById('main-screen').style.display = 'block';
         }
 
+        function logout() {
+            localStorage.removeItem('auth_token');
+            location.reload();
+        }
+
         async function loadData() {
-            const res = await fetch('data.json?t=' + Date.now());
-            data = await res.json();
-            render();
+            try {
+                const res = await fetch('data.json?t=' + Date.now());
+                data = await res.json();
+                render();
+            } catch (e) { console.error(e); }
         }
 
         function showSection(s, el) {
@@ -162,13 +205,34 @@
         }
 
         function render() {
-            // (логика рендера, как в предыдущем коде)
+            if (currentSection === 'tasks') {
+                renderTasks();
+            } else {
+                renderCards();
+            }
+        }
+
+        function renderCards() {
             const grid = document.getElementById('grid-' + currentSection);
-            const items = data[currentPeriod] ? data[currentPeriod][currentSection] || [] : [];
+            if (!data[currentPeriod]) { grid.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center;">Нет данных</div>'; return; }
+            const items = data[currentPeriod][currentSection] || [];
             let html = '';
             for (let i = 0; i < items.length; i++) {
                 html += `<div class="card top-${i+1}"><div class="name">${items[i].name}</div><div class="val">${items[i].val.toLocaleString('ru-RU')} ген.</div></div>`;
             }
+            if (!html) html = '<div style="color:#666; grid-column:1/-1; text-align:center;">Пусто</div>';
+            grid.innerHTML = html;
+        }
+
+        function renderTasks() {
+            const grid = document.getElementById('grid-tasks');
+            if (!data[currentPeriod]) { grid.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center;">Нет данных</div>'; return; }
+            const items = data[currentPeriod].tasks || [];
+            let html = '';
+            for (let i = 0; i < items.length; i++) {
+                html += `<div class="card top-${i+1}"><div class="name">${items[i].name}</div><div class="val">${items[i].amount.toLocaleString('ru-RU')} шт. / ${items[i].money.toLocaleString('ru-RU')} 💰</div></div>`;
+            }
+            if (!html) html = '<div style="color:#666; grid-column:1/-1; text-align:center;">Пусто</div>';
             grid.innerHTML = html;
         }
 
