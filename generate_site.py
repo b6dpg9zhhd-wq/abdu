@@ -8,6 +8,7 @@ import base64
 import io
 import hashlib
 import json
+import calendar
 from datetime import datetime, timedelta
 from PIL import Image
 from config import BOT_TOKEN
@@ -41,11 +42,73 @@ def get_avatar(uid, name):
                 return f"avatars/{uid}.webp"
     except: pass
     
-    # Заглушка, если авы нет
     colors = ['#FF512F', '#1FA2FF', '#F09819', '#8E2DE2', '#00B4DB']
     img = Image.new('RGB', (128, 128), color=colors[hash(name) % len(colors)])
     img.save(path, format='WEBP', quality=80)
     return f"avatars/{uid}.webp"
+
+def get_graph_data(con, metric, period):
+    now = datetime.now()
+    
+    if period == "today":
+        since = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        rows = con.execute(f"SELECT strftime('%H', ts) as h, SUM({metric}) FROM sales WHERE ts >= ? GROUP BY h", (since.isoformat(),)).fetchall()
+        data = {int(r[0]): r[1] for r in rows}
+        labels = [f"{i:02d}" for i in range(24)]
+        values = [data.get(i, 0) for i in range(24)]
+    elif period == "week":
+        since = (now - timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0)
+        rows = con.execute(f"SELECT DATE(ts) as d, SUM({metric}) FROM sales WHERE ts >= ? GROUP BY d", (since.isoformat(),)).fetchall()
+        data = {r[0]: r[1] for r in rows}
+        labels = [(since + timedelta(days=i)).strftime("%d.%m") for i in range(7)]
+        values = [data.get((since + timedelta(days=i)).strftime("%Y-%m-%d"), 0) for i in range(7)]
+    else: # month
+        since = (now - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0)
+        rows = con.execute(f"SELECT DATE(ts) as d, SUM({metric}) FROM sales WHERE ts >= ? GROUP BY d", (since.isoformat(),)).fetchall()
+        data = {r[0]: r[1] for r in rows}
+        labels = [(since + timedelta(days=i)).strftime("%d.%m") for i in range(30)]
+        values = [data.get((since + timedelta(days=i)).strftime("%Y-%m-%d"), 0) for i in range(30)]
+    
+    return {"labels": labels, "values": values}
+
+def get_calendar_data(con, offset_months=0):
+    now = datetime.now()
+    year = now.year
+    month = now.month + offset_months
+    while month <= 0: month += 12; year -= 1
+    while month > 12: month -= 12; year += 1
+    
+    first_day = datetime(year, month, 1)
+    _, days_in_month = calendar.monthrange(year, month)
+    
+    since = first_day.isoformat()
+    next_month = datetime(year + 1, 1, 1) if month == 12 else datetime(year, month + 1, 1)
+    until = next_month.isoformat()
+    
+    rows = con.execute("SELECT DATE(ts), SUM(count) FROM sales WHERE ts >= ? AND ts < ? GROUP BY DATE(ts)", (since, until)).fetchall()
+    day_counts = {r[0]: r[1] for r in rows}
+    
+    max_val = max(day_counts.values()) if day_counts else 0
+    start_weekday = first_day.weekday()
+    days = []
+    for i in range(start_weekday):
+        days.append({"day": None, "count": 0, "color": None})
+    for d in range(1, days_in_month + 1):
+        date_str = f"{year}-{month:02d}-{d:02d}"
+        cnt = day_counts.get(date_str, 0)
+        color = "gray"
+        if cnt > 0:
+            pct = cnt / max_val
+            if pct < 0.25: color = "red"
+            elif pct < 0.5: color = "orange"
+            elif pct < 0.75: color = "yellow"
+            else: color = "green"
+        days.append({"day": d, "count": cnt, "color": color})
+    while len(days) < 42:
+        days.append({"day": None, "count": 0, "color": None})
+    
+    month_name = first_day.strftime("%B %Y").capitalize()
+    return {"title": month_name, "days": days}
 
 def get_data():
     con = sqlite3.connect(DB_PATH)
@@ -59,37 +122,22 @@ def get_data():
 
     data = {}
     for p_name, since in periods.items():
-        # Генки
-        sales = con.execute("""
-            SELECT b.nickname, b.username, s.buyer_id, SUM(s.count) as total 
-            FROM sales s LEFT JOIN buyers b ON b.buyer_id = s.buyer_id 
-            WHERE s.ts >= ? GROUP BY s.buyer_id HAVING total > 0 ORDER BY total DESC LIMIT 5
-        """, (since,)).fetchall()
-        
-        # Таски
-        tasks = con.execute("""
-            SELECT resource, SUM(amount), SUM(money) 
-            FROM tasks WHERE ts >= ? GROUP BY resource ORDER BY SUM(money) DESC LIMIT 5
-        """, (since,)).fetchall()
-        
-        # Молоко
-        milk = con.execute("""
-            SELECT b.nickname, b.username, m.user_id, SUM(m.count) as total 
-            FROM milk m LEFT JOIN buyers b ON b.buyer_id = m.user_id 
-            WHERE m.ts >= ? GROUP BY m.user_id HAVING total > 0 ORDER BY total DESC LIMIT 5
-        """, (since,)).fetchall()
+        sales = con.execute("SELECT b.nickname, b.username, s.buyer_id, SUM(s.count) as total FROM sales s LEFT JOIN buyers b ON b.buyer_id = s.buyer_id WHERE s.ts >= ? GROUP BY s.buyer_id HAVING total > 0 ORDER BY total DESC LIMIT 5", (since,)).fetchall()
+        tasks = con.execute("SELECT resource, SUM(amount), SUM(money) FROM tasks WHERE ts >= ? GROUP BY resource ORDER BY SUM(money) DESC LIMIT 5", (since,)).fetchall()
+        milk = con.execute("SELECT b.nickname, b.username, m.user_id, SUM(m.count) as total FROM milk m LEFT JOIN buyers b ON b.buyer_id = m.user_id WHERE m.ts >= ? GROUP BY m.user_id HAVING total > 0 ORDER BY total DESC LIMIT 5", (since,)).fetchall()
 
         data[p_name] = {
             "sales": [{"name": r[0] or r[1] or f"id{r[2]}", "val": int(r[3]), "uid": r[2], "ava": get_avatar(r[2], r[0] or r[1] or "")} for r in sales],
             "tasks": [{"name": r[0], "amount": int(r[1]), "money": int(r[2])} for r in tasks],
-            "milk": [{"name": r[0] or r[1] or f"id{r[2]}", "val": int(r[3]), "uid": r[2], "ava": get_avatar(r[2], r[0] or r[1] or "")} for r in milk]
+            "milk": [{"name": r[0] or r[1] or f"id{r[2]}", "val": int(r[3]), "uid": r[2], "ava": get_avatar(r[2], r[0] or r[1] or "")} for r in milk],
+            "graph": get_graph_data(con, "count", p_name),
+            "calendar": get_calendar_data(con, 0)
         }
     con.close()
     return data
 
-# Сохраняем в data.json
 data = get_data()
 with open(f"{REPO_DIR}/data.json", "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False)
 
-print("OK: data.json обновлен (с аватарками)")
+print("OK: data.json обновлен (с графиками и календарем)")

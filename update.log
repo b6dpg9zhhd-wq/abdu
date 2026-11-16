@@ -25,3 +25,25 @@ OK: data.json обновлен
 OK: data.json обновлен
 Нет изменений
 OK: data.json обновлен (с аватарками)
+[main 5c0b7a1] Auto-update 2026-11-17 00:28
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 7 files changed, 64 insertions(+), 7 deletions(-)
+ create mode 100644 avatars/1162495852.webp
+ create mode 100644 avatars/730173002.webp
+ create mode 100644 avatars/755520679.webp
+ create mode 100644 avatars/8335503324.webp
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+   b3eb179..5c0b7a1  main -> main
+Сайт обновлен
