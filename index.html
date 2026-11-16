@@ -1,363 +1,160 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Топ ABDU</title>
+    <title>ABDU Manager</title>
     <style>
         body { background: #0f0f0f; color: #fff; font-family: -apple-system, sans-serif; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; box-sizing: border-box; }
-        .top-bar { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
-        .title { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.5px; margin-bottom: 2px; }
-        .subtitle { font-size: 10px; font-weight: 800; color: #00e676; text-transform: uppercase; letter-spacing: 1.5px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; font-weight: 900; margin: 0; color: #00e676; }
+        .header p { font-size: 12px; color: #888; margin: 5px 0 0; }
         
-        .periods-container { display: flex; background: #1a1a1a; border-radius: 10px; padding: 4px; margin-bottom: 16px; width: 100%; max-width: 500px; }
-        .period-btn { flex: 1; padding: 8px 0; text-align: center; font-size: 11px; font-weight: 700; color: #666; background: transparent; border: none; cursor: pointer; border-radius: 6px; }
-        .period-btn.active { color: #fff; background: #2a2a2a; }
+        .tabs { display: flex; background: #1a1a1a; border-radius: 10px; padding: 4px; margin-bottom: 20px; width: 100%; max-width: 600px; overflow-x: auto; }
+        .tab { flex: 1; padding: 10px; text-align: center; font-size: 14px; font-weight: 600; color: #777; cursor: pointer; border-radius: 8px; transition: 0.3s; white-space: nowrap; }
+        .tab.active { color: #fff; background: #2a2a2a; }
         
-        .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; max-width: 500px; margin-bottom: 16px; align-items: start; }
-        .grid .card:last-child:nth-child(odd) { grid-column: 1 / -1; width: calc(50% - 4px); justify-self: center; }
+        .section { display: none; width: 100%; max-width: 600px; }
+        .section.active { display: block; }
         
-        .card { display: flex; flex-direction: column; background: #1a1a1a; padding: 10px; border-radius: 12px; border-top: 3px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .periods { display: flex; background: #1a1a1a; border-radius: 8px; padding: 4px; margin-bottom: 15px; }
+        .period { flex: 1; padding: 6px; text-align: center; font-size: 11px; font-weight: 600; color: #666; cursor: pointer; border-radius: 6px; }
+        .period.active { color: #fff; background: #2a2a2a; }
         
-        .card-top { display: flex; align-items: center; margin-bottom: 10px; }
-        .avatar-box { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 2px solid; margin-right: 10px; flex-shrink: 0; }
-        .info { display: flex; flex-direction: column; overflow: hidden; }
-        .name { font-size: 14px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-        .val { font-size: 12px; font-weight: 700; color: #888; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .card { background: #1a1a1a; padding: 12px; border-radius: 12px; border-top: 3px solid transparent; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
-        .compliment-box { position: relative; font-size: 9px; font-weight: 600; color: #aaa; background: rgba(255,255,255,0.05); border-radius: 0 6px 6px 0; border-left: 3px solid; padding: 8px 20px 8px 8px; text-align: left; width: 100%; font-style: italic; line-height: 1.3; word-break: break-word; box-sizing: border-box; cursor: pointer; }
-        .compliment-box:hover { background: rgba(255,255,255,0.1); }
-        .quote-mark { position: absolute; top: 0px; right: 6px; font-size: 18px; font-weight: 900; line-height: 1; font-family: Georgia, serif; }
+        .card.top-1 { border-top-color: #ffd700; background: linear-gradient(145deg, #2a1f2d, #1a1a1a); }
+        .card.top-1 .name { color: #ffd700; }
+        .card.top-2 { border-top-color: #c0c0c0; background: linear-gradient(145deg, #1e2226, #1a1a1a); }
+        .card.top-2 .name { color: #c0c0c0; }
+        .card.top-3 { border-top-color: #cd7f32; background: linear-gradient(145deg, #281b14, #1a1a1a); }
+        .card.top-3 .name { color: #cd7f32; }
         
-        .card.top-1 { background: linear-gradient(145deg, #2a1f2d, #1a1a1a); }
-        .card.top-2 { background: linear-gradient(145deg, #1e2226, #1a1a1a); }
-        .card.top-3 { background: linear-gradient(145deg, #281b14, #1a1a1a); }
-        
-        .footer { margin-top: 10px; font-size: 12px; font-weight: 600; color: #00e676; text-align: center; }
+        .name { font-size: 14px; font-weight: 800; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .val { font-size: 16px; font-weight: 900; color: #00e676; }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="title">Топ по генерациям</div>
-        <div class="subtitle">ABDU Manager</div>
+    <div class="header">
+        <h1>ABDU Manager</h1>
+        <p>Статистика в реальном времени</p>
     </div>
     
-    <div class="periods-container">
-        <button class="period-btn" onclick="showPeriod('today', this)">Сутки</button>
-        <button class="period-btn" onclick="showPeriod('week', this)">Неделя</button>
-        <button class="period-btn" onclick="showPeriod('month', this)">Месяц</button>
-        <button class="period-btn active" onclick="showPeriod('all', this)">Всё</button>
-    </div><div id="block-today" class="grid" style="display: none;">
-        <div class="card top-1" style="border-top-color: #ffd700;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/7124781347.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #ffd700;">ᅠ￴￴￴￴</div>
-                    <div class="val">19 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #ffd700;" onclick="editQuote(this, 'ᅠ￴￴￴￴')">
-                <span class="quote-mark" style="color: #ffd700;">”</span>
-                <span class="comp-text">Машина мощности 🚀</span>
-            </div>
+    <div class="tabs">
+        <div class="tab active" onclick="showSection('sales', this)">💎 Генки</div>
+        <div class="tab" onclick="showSection('tasks', this)">📦 Таски</div>
+        <div class="tab" onclick="showSection('milk', this)">🥛 Молоко</div>
+        <div class="tab" onclick="showSection('top', this)">🏆 Топ</div>
+    </div>
+    
+    <div id="section-sales" class="section active">
+        <div class="periods" id="periods-sales">
+            <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+            <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+            <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+            <div class="period" onclick="setPeriod('all', this)">Всё</div>
         </div>
-        
-        <div class="card top-2" style="border-top-color: #c0c0c0;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #c0c0c0;"><img src="avatars/852190250.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #c0c0c0;">𝒜𝓁𝓎𝒶</div>
-                    <div class="val">16 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #c0c0c0;" onclick="editQuote(this, '𝒜𝓁𝓎𝒶')">
-                <span class="quote-mark" style="color: #c0c0c0;">”</span>
-                <span class="comp-text">Машина мощности 🚀</span>
-            </div>
+        <div id="grid-sales" class="grid"></div>
+    </div>
+    
+    <div id="section-tasks" class="section">
+        <div class="periods" id="periods-tasks">
+            <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+            <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+            <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+            <div class="period" onclick="setPeriod('all', this)">Всё</div>
         </div>
-        
-        <div class="card top-3" style="border-top-color: #cd7f32;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #cd7f32;"><img src="avatars/978715632.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #cd7f32;">Botash👑🐮</div>
-                    <div class="val">12 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #cd7f32;" onclick="editQuote(this, 'Botash👑🐮')">
-                <span class="quote-mark" style="color: #cd7f32;">”</span>
-                <span class="comp-text">Король скорости ⚡</span>
-            </div>
+        <div id="grid-tasks" class="grid"></div>
+    </div>
+    
+    <div id="section-milk" class="section">
+        <div class="periods" id="periods-milk">
+            <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+            <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+            <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+            <div class="period" onclick="setPeriod('all', this)">Всё</div>
         </div>
-        
-        <div class="card top-4" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/6432107633.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">アsweettnex🐮</div>
-                    <div class="val">12 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, 'アsweettnex🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Неудержимый поток 💥</span>
-            </div>
+        <div id="grid-milk" class="grid"></div>
+    </div>
+    
+    <div id="section-top" class="section">
+        <div class="periods" id="periods-top">
+            <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
+            <div class="period" onclick="setPeriod('week', this)">Неделя</div>
+            <div class="period" onclick="setPeriod('month', this)">Месяц</div>
+            <div class="period" onclick="setPeriod('all', this)">Всё</div>
         </div>
-        
-        <div class="card top-5" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/8600875109.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">­­­­­­sешка 🐮</div>
-                    <div class="val">12 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, '­­­­­­sешка 🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Топ по мозгам 🧠</span>
-            </div>
-        </div>
-        </div><div id="block-week" class="grid" style="display: none;">
-        <div class="card top-1" style="border-top-color: #ffd700;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/852190250.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #ffd700;">𝒜𝓁𝓎𝒶</div>
-                    <div class="val">161 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #ffd700;" onclick="editQuote(this, '𝒜𝓁𝓎𝒶')">
-                <span class="quote-mark" style="color: #ffd700;">”</span>
-                <span class="comp-text">Машина мощности 🚀</span>
-            </div>
-        </div>
-        
-        <div class="card top-2" style="border-top-color: #c0c0c0;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #c0c0c0;"><img src="avatars/561346084.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #c0c0c0;">†ᴀɴɴᴀ🐮</div>
-                    <div class="val">137 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #c0c0c0;" onclick="editQuote(this, '†ᴀɴɴᴀ🐮')">
-                <span class="quote-mark" style="color: #c0c0c0;">”</span>
-                <span class="comp-text">Гений генераций 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-3" style="border-top-color: #cd7f32;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #cd7f32;"><img src="avatars/6432107633.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #cd7f32;">アsweettnex🐮</div>
-                    <div class="val">120 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #cd7f32;" onclick="editQuote(this, 'アsweettnex🐮')">
-                <span class="quote-mark" style="color: #cd7f32;">”</span>
-                <span class="comp-text">Неудержимый поток 💥</span>
-            </div>
-        </div>
-        
-        <div class="card top-4" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/511143262.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">Лена 🐮🕊🍒</div>
-                    <div class="val">98 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, 'Лена 🐮🕊🍒')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Гений генераций 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-5" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/702758732.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">я🐮</div>
-                    <div class="val">85 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, 'я🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Машина мощности 🚀</span>
-            </div>
-        </div>
-        </div><div id="block-month" class="grid" style="display: none;">
-        <div class="card top-1" style="border-top-color: #ffd700;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/6432107633.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #ffd700;">アsweettnex🐮</div>
-                    <div class="val">552 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #ffd700;" onclick="editQuote(this, 'アsweettnex🐮')">
-                <span class="quote-mark" style="color: #ffd700;">”</span>
-                <span class="comp-text">Неудержимый поток 💥</span>
-            </div>
-        </div>
-        
-        <div class="card top-2" style="border-top-color: #c0c0c0;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #c0c0c0;"><img src="avatars/511143262.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #c0c0c0;">Лена 🐮🕊🍒</div>
-                    <div class="val">337 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #c0c0c0;" onclick="editQuote(this, 'Лена 🐮🕊🍒')">
-                <span class="quote-mark" style="color: #c0c0c0;">”</span>
-                <span class="comp-text">Гений генераций 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-3" style="border-top-color: #cd7f32;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #cd7f32;"><img src="avatars/5434667562.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #cd7f32;">Anvar🐮🥷</div>
-                    <div class="val">322 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #cd7f32;" onclick="editQuote(this, 'Anvar🐮🥷')">
-                <span class="quote-mark" style="color: #cd7f32;">”</span>
-                <span class="comp-text">Легенда генераций 🔥</span>
-            </div>
-        </div>
-        
-        <div class="card top-4" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/561346084.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">†ᴀɴɴᴀ🐮</div>
-                    <div class="val">313 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, '†ᴀɴɴᴀ🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Гений генераций 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-5" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/6910401960.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">Миша 🐮</div>
-                    <div class="val">289 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, 'Миша 🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Топ по мозгам 🧠</span>
-            </div>
-        </div>
-        </div><div id="block-all" class="grid" style="display: grid;">
-        <div class="card top-1" style="border-top-color: #ffd700;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #ffd700;"><img src="avatars/6432107633.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #ffd700;">アsweettnex🐮</div>
-                    <div class="val">906 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #ffd700;" onclick="editQuote(this, 'アsweettnex🐮')">
-                <span class="quote-mark" style="color: #ffd700;">”</span>
-                <span class="comp-text">Неудержимый поток 💥</span>
-            </div>
-        </div>
-        
-        <div class="card top-2" style="border-top-color: #c0c0c0;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #c0c0c0;"><img src="avatars/511143262.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #c0c0c0;">Лена 🐮🕊🍒</div>
-                    <div class="val">485 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #c0c0c0;" onclick="editQuote(this, 'Лена 🐮🕊🍒')">
-                <span class="quote-mark" style="color: #c0c0c0;">”</span>
-                <span class="comp-text">Гений генераций 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-3" style="border-top-color: #cd7f32;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #cd7f32;"><img src="avatars/6910401960.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #cd7f32;">Миша 🐮</div>
-                    <div class="val">436 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #cd7f32;" onclick="editQuote(this, 'Миша 🐮')">
-                <span class="quote-mark" style="color: #cd7f32;">”</span>
-                <span class="comp-text">Топ по мозгам 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-4" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/8277341084.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">настя 🐈‍⬛🐮</div>
-                    <div class="val">404 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, 'настя 🐈‍⬛🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Топ по мозгам 🧠</span>
-            </div>
-        </div>
-        
-        <div class="card top-5" style="border-top-color: #333;">
-            <div class="card-top">
-                <div class="avatar-box" style="border-color: #333;"><img src="avatars/7529319304.webp" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-                <div class="info">
-                    <div class="name" style="color: #333;">💜Милашка💜🐮</div>
-                    <div class="val">362 ген.</div>
-                </div>
-            </div>
-            <div class="compliment-box" style="border-left-color: #333;" onclick="editQuote(this, '💜Милашка💜🐮')">
-                <span class="quote-mark" style="color: #333;">”</span>
-                <span class="comp-text">Машина мощности 🚀</span>
-            </div>
-        </div>
-        </div><script>
-        // Загружаем локальные правки при старте
-        const localQuotes = JSON.parse(localStorage.getItem('custom_quotes') || '{}');
-        
-        document.querySelectorAll('.card').forEach(card => {
-            const name = card.querySelector('.name').textContent;
-            if (localQuotes[name]) {
-                card.querySelector('.comp-text').textContent = localQuotes[name];
-            }
-        });
+        <div id="grid-top" class="grid"></div>
+    </div>
+    
+    <script>
+        let data = {};
+        let currentSection = 'sales';
+        let currentPeriod = 'today';
 
-        function showPeriod(p, el) {
-            document.querySelectorAll('.grid').forEach(g => g.style.display = 'none');
-            document.getElementById('block-' + p).style.display = 'grid';
-            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+        async function loadData() {
+            const res = await fetch('data.json?t=' + Date.now());
+            data = await res.json();
+            render();
+        }
+
+        function showSection(s, el) {
+            currentSection = s;
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('section-' + s).classList.add('active');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
+            render();
         }
 
-        function editQuote(el, name) {
-            const currentText = el.querySelector('.comp-text').textContent;
-            const newText = prompt("Введи новый комплимент для " + name + ":", currentText);
-            if (newText !== null && newText.trim() !== "") {
-                el.querySelector('.comp-text').textContent = newText;
-                
-                // Сохраняем в localStorage
-                let quotes = JSON.parse(localStorage.getItem('custom_quotes') || '{}');
-                quotes[name] = newText;
-                localStorage.setItem('custom_quotes', JSON.stringify(quotes));
+        function setPeriod(p, el) {
+            currentPeriod = p;
+            document.querySelectorAll('.periods').forEach(ps => {
+                ps.querySelectorAll('.period').forEach(per => per.classList.remove('active'));
+            });
+            el.classList.add('active');
+            render();
+        }
+
+        function render() {
+            if (currentSection === 'tasks') {
+                renderTasks();
+            } else {
+                renderCards();
             }
         }
+
+        function renderCards() {
+            const grid = document.getElementById('grid-' + currentSection);
+            const items = data[currentPeriod] ? data[currentPeriod][currentSection] || [] : [];
+            let html = '';
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                html += `<div class="card top-${i+1}">
+                    <div class="name">${item.name}</div>
+                    <div class="val">${item.val.toLocaleString('ru-RU')} ген.</div>
+                </div>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        function renderTasks() {
+            const grid = document.getElementById('grid-tasks');
+            const items = data[currentPeriod] ? data[currentPeriod].tasks || [] : [];
+            let html = '';
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                html += `<div class="card top-${i+1}">
+                    <div class="name">${item.name}</div>
+                    <div class="val">${item.amount.toLocaleString('ru-RU')} шт. / ${item.money.toLocaleString('ru-RU')} 💰</div>
+                </div>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        loadData();
+        setInterval(loadData, 60000); // Обновление раз в минуту
     </script>
 </body>
 </html>
