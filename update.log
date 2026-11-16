@@ -5,3 +5,29 @@ ModuleNotFoundError: No module named 'config'
 fatal: ambiguous argument 'data.json': unknown revision or path not in the working tree.
 Use '--' to separate paths from revisions, like this:
 'git <command> [<revision>...] -- [<file>...]'
+[main 42de188] Auto-update 2026-11-17 00:13
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 7 insertions(+)
+ create mode 100644 update.log
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+   0ddff48..42de188  main -> main
+Сайт обновлен
+Traceback (most recent call last):
+  File "/root/abdu/site/generate_site.py", line 6, in <module>
+    from config import DB_PATH
+ModuleNotFoundError: No module named 'config'
+fatal: ambiguous argument 'data.json': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
