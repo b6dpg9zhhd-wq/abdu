@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/root/abdu/site/generate_site.py", line 6, in <module>
+    from config import DB_PATH
+ModuleNotFoundError: No module named 'config'
+fatal: ambiguous argument 'data.json': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
