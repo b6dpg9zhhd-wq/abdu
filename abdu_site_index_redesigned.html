@@ -40,8 +40,6 @@
         .brand { display: flex; flex-direction: column; gap: 4px; }
         .title { font-size: 23px; font-weight: 900; color: var(--text); letter-spacing: -.8px; line-height: 1.1; }
         .subtitle { font-size: 10px; font-weight: 800; color: var(--green); text-transform: uppercase; letter-spacing: 1.8px; }
-        .live-mark { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid rgba(0,230,118,.17); border-radius: 999px; color: #9be9bd; background: var(--green-soft); font-size: 10px; font-weight: 800; letter-spacing: .5px; white-space: nowrap; }
-        .live-mark:before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px rgba(0,230,118,.65); }
 
         .tabs { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 5px; background: rgba(21,25,23,.92); border: 1px solid var(--line); border-radius: 15px; padding: 5px; margin-bottom: 18px; width: 100%; }
         .tab { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; padding: 12px 8px; text-align: center; font-size: 12px; font-weight: 750; color: #87918a; cursor: pointer; border-radius: 11px; transition: background .18s ease, color .18s ease, transform .18s ease; white-space: nowrap; user-select: none; }
@@ -85,14 +83,21 @@
         .task-metric strong { display: block; color: var(--text); font-size: 12px; font-weight: 850; overflow-wrap: anywhere; }
         .empty-state { grid-column: 1 / -1; padding: 28px 16px; text-align: center; border: 1px dashed rgba(255,255,255,.1); border-radius: 15px; color: var(--muted); font-size: 12px; background: rgba(255,255,255,.015); }
 
+        .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 0 12px 8px; color: var(--muted); text-align: center; font-size: 10px; font-weight: 800; letter-spacing: .4px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
-        .calendar-cell { aspect-ratio: 1/1; background: #202823; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; position: relative; }
+        .calendar-cell { aspect-ratio: 1/1; min-width: 0; background: #202823; border-radius: 8px; position: relative; overflow: hidden; }
+        .calendar-cell .day-number { position: absolute; top: 5px; left: 6px; font-size: 10px; font-weight: 800; color: rgba(255,255,255,.68); }
+        .calendar-cell .day-value { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding-top: 6px; font-size: clamp(10px, 2.7vw, 15px); font-weight: 900; color: #fff; text-align: center; overflow: hidden; }
         .calendar-cell.empty { background: transparent; }
+        .calendar-cell.empty .day-number, .calendar-cell.empty .day-value { display: none; }
         .calendar-cell.c-gray { background: #202622; color: #68736b; }
-        .calendar-cell.c-red { background: #713d3b; color: #ffe1df; }
-        .calendar-cell.c-orange { background: #80522c; color: #ffead6; }
-        .calendar-cell.c-yellow { background: #8b792d; color: #fff4c2; }
-        .calendar-cell.c-green { background: #17683f; color: #d8ffe9; }
+        .calendar-cell.c-red { background: #ef5350; color: #fff; }
+        .calendar-cell.c-orange { background: #ff9100; color: #fff; }
+        .calendar-cell.c-yellow { background: #ffd600; color: #101510; }
+        .calendar-cell.c-green { background: #00e676; color: #101510; }
+        .calendar-cell.c-yellow .day-number, .calendar-cell.c-yellow .day-value,
+        .calendar-cell.c-green .day-number, .calendar-cell.c-green .day-value { color: #101510; }
+        .calendar-cell.c-gray .day-value { color: #aab4ad; }
         #calendar-title { text-align: center; font-size: 14px; font-weight: 800; color: #dbe5de; margin-bottom: 12px !important; }
         .chart-container { width: 100%; height: 280px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
         .footer { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); width: 100%; font-size: 11px; font-weight: 650; color: #7c8980; text-align: center; }
@@ -136,7 +141,6 @@
                 <div class="title">ABDU Manager</div>
                 <div class="subtitle">Панель статистики</div>
             </div>
-            <div class="live-mark">LIVE · ОБЗОР</div>
         </div>
         
         <div class="tabs">
@@ -196,6 +200,7 @@
                 <div class="period active" onclick="drawCalendar(0, this)">Текущий</div>
             </div>
             <div id="calendar-title" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;"></div>
+            <div class="calendar-weekdays"><div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div></div>
             <div id="calendar-grid" class="calendar-grid"></div>
         </div>
 
@@ -369,16 +374,19 @@
             if (chart) chart.destroy();
             
             chart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: data[period].graph.labels,
                     datasets: [{
                         label: 'Генерации',
                         data: data[period].graph.values,
+                        backgroundColor: 'rgba(0, 230, 118, 0.78)',
+                        hoverBackgroundColor: '#00e676',
                         borderColor: '#00e676',
-                        backgroundColor: 'rgba(0, 230, 118, 0.1)',
-                        fill: true,
-                        tension: 0.3
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        maxBarThickness: 28
                     }]
                 },
                 options: {
@@ -387,7 +395,7 @@
                     plugins: { legend: { display: false } },
                     scales: {
                         x: { grid: { color: '#222' }, ticks: { color: '#888' } },
-                        y: { grid: { color: '#222' }, ticks: { color: '#888' } }
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#888', precision: 0 } }
                     }
                 }
             });
@@ -407,8 +415,16 @@
             
             cal.days.forEach(d => {
                 const cell = document.createElement('div');
-                cell.className = 'calendar-cell ' + (d.day ? 'c-' + d.color : 'empty');
-                cell.textContent = d.day || '';
+                cell.className = 'calendar-cell ' + (d.day ? 'c-' + (d.color || 'gray') : 'empty');
+                if (d.day) {
+                    const dayNumber = document.createElement('span');
+                    dayNumber.className = 'day-number';
+                    dayNumber.textContent = d.day;
+                    const dayValue = document.createElement('span');
+                    dayValue.className = 'day-value';
+                    dayValue.textContent = Number(d.count || 0) > 0 ? Number(d.count).toLocaleString('ru-RU') : '';
+                    cell.append(dayNumber, dayValue);
+                }
                 grid.appendChild(cell);
             });
         }
