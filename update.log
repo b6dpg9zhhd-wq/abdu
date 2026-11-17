@@ -5494,3 +5494,23 @@ OK: data.json обновлен (с графиками и календарем)
 OK: data.json обновлен (с графиками и календарем)
 fatal: index.html: no such path in the working tree.
 Use 'git <command> -- <path>...' to specify paths that do not exist locally.
+[main 7df1a65] Auto-update 2026-11-17 17:15
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 126 insertions(+), 15 deletions(-)
+ rename index.html => abdu_site_index_redesigned.html (79%)
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+   b1e23df..7df1a65  main -> main
+Сайт обновлен
+OK: data.json обновлен (с графиками и календарем)
