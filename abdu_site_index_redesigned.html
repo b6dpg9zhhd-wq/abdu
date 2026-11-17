@@ -162,16 +162,91 @@
             .grid { grid-template-columns: 1fr; }
             .grid .card:last-child:nth-child(odd) { grid-column: auto; width: 100%; }
         }
+
+        /* ABDU polish: resource cards and sign-in */
+        .login-box {
+            position: relative; overflow: hidden; max-width: 390px; margin: clamp(34px, 9vh, 88px) auto 0;
+            padding: 30px 26px 22px; gap: 12px; border-radius: 25px;
+            background: linear-gradient(155deg, rgba(25,34,29,.98), rgba(16,21,18,.98) 62%);
+            border: 1px solid rgba(0,230,118,.16);
+            box-shadow: 0 28px 80px rgba(0,0,0,.42), 0 0 50px rgba(0,230,118,.055);
+        }
+        .login-box::before { content:""; position:absolute; width:220px; height:220px; right:-105px; top:-125px; border-radius:50%; background:rgba(0,230,118,.10); filter:blur(3px); pointer-events:none; }
+        .login-mark { position:relative; display:grid; place-items:center; width:54px; height:54px; margin:0 auto 5px; border-radius:17px; color:#06140b; font-size:17px; font-weight:950; letter-spacing:-1px; background:linear-gradient(145deg,#39f69a,#00c96a); box-shadow:0 9px 26px rgba(0,230,118,.2); }
+        .login-mark i { position:absolute; width:8px; height:8px; right:8px; top:8px; border-radius:50%; background:#eafff3; box-shadow:0 0 0 3px rgba(6,20,11,.15); }
+        .login-heading { text-align:center; margin-bottom:10px; }
+        .login-kicker { color:var(--green); font-size:9px; font-weight:900; letter-spacing:2.2px; margin-bottom:8px; }
+        .login-box h2 { color:var(--text); font-size:25px; font-weight:900; letter-spacing:-.8px; margin:0; }
+        .login-heading p { color:var(--muted); font-size:12px; margin:7px 0 0; }
+        .login-label { display:block; color:#aab6ae; font-size:11px; font-weight:800; letter-spacing:.2px; margin:3px 1px -5px; }
+        .login-box input { width:100%; min-height:49px; padding:13px 14px; border-radius:13px; border:1px solid rgba(255,255,255,.085); background:rgba(5,10,7,.48); color:var(--text); font-size:15px; transition:border-color .2s,box-shadow .2s,background .2s; }
+        .login-box input::placeholder { color:#657168; }
+        .login-box input:focus { border-color:rgba(0,230,118,.62); background:#101813; box-shadow:0 0 0 4px rgba(0,230,118,.09); }
+        .login-box button { min-height:49px; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:14px; transition:transform .18s,filter .18s,box-shadow .18s; }
+        .login-box button:active { transform:scale(.985); }
+        .login-primary { position:relative; color:#06140b !important; background:linear-gradient(135deg,#26ee8c,#00cf70) !important; box-shadow:0 8px 22px rgba(0,230,118,.15); }
+        .login-primary b { position:absolute; right:17px; font-size:20px; font-weight:600; }
+        .login-secondary { color:#06140b !important; background:linear-gradient(135deg,#26ee8c,#00cf70) !important; }
+        .login-secondary span { font-size:19px; }
+        #login-status { min-height:18px; margin-top:1px; font-size:11px; }
+        .login-foot { display:flex; justify-content:center; align-items:center; gap:7px; padding-top:14px; margin-top:3px; border-top:1px solid rgba(255,255,255,.055); color:#718078; font-size:10px; font-weight:650; }
+        .login-lock { color:var(--green); font-size:15px; }
+
+        #grid-tasks { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+        .task-card {
+            position:relative; min-height:190px; padding:14px; gap:0; overflow:hidden;
+            justify-content:flex-start; border:1px solid var(--task-accent-line);
+            border-top:1px solid var(--task-accent-line);
+            background:radial-gradient(circle at 100% 0%,rgba(255,155,66,.11),transparent 46%),linear-gradient(150deg,#1b211d,#131815 76%);
+            animation:cardIn .38s cubic-bezier(.2,.75,.25,1) both;
+        }
+        .task-card::before { content:""; position:absolute; inset:0 auto 0 0; width:3px; background:linear-gradient(180deg,#ffb36e,rgba(255,155,66,.08)); }
+        .task-card:hover { transform:translateY(-3px); border-color:rgba(255,155,66,.42); box-shadow:0 13px 30px rgba(0,0,0,.22),0 0 22px rgba(255,155,66,.045); }
+        .task-card-top { display:flex; align-items:center; gap:10px; min-width:0; }
+        .task-emoji { display:grid; place-items:center; width:43px; height:43px; flex:0 0 43px; border-radius:14px; background:rgba(255,155,66,.13); border:1px solid rgba(255,155,66,.2); font-size:23px; }
+        .task-title-wrap { display:flex; flex-direction:column; gap:4px; min-width:0; }
+        .task-index { color:#9a8068; font-size:8px; font-weight:900; letter-spacing:1.15px; }
+        .task-name { color:#fff2e6; font-size:14px; font-weight:900; letter-spacing:-.2px; overflow-wrap:anywhere; }
+        .task-kind { margin-left:auto; align-self:flex-start; padding:5px 7px; border-radius:7px; color:#ffb36e; background:rgba(255,155,66,.09); font-size:8px; font-weight:900; letter-spacing:.8px; }
+        .task-main-value { display:flex; flex-direction:column; gap:2px; margin:17px 0 14px; }
+        .task-main-value strong { color:#fff; font-size:clamp(21px,5vw,27px); line-height:1; font-weight:950; letter-spacing:-.8px; font-variant-numeric:tabular-nums; }
+        .task-main-value span { color:#849087; font-size:10px; font-weight:650; }
+        .task-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:8px; padding-top:10px; margin-top:auto; border-top:1px solid rgba(255,255,255,.065); }
+        .task-money-label { color:#89948c; font-size:10px; font-weight:700; }
+        .task-money-value { color:#ffb36e; font-size:13px; font-weight:900; white-space:nowrap; font-variant-numeric:tabular-nums; }
+        .task-money-value small { font-size:11px; }
+        @media (max-width:420px) {
+            .login-box { padding:26px 20px 19px; }
+            #grid-tasks { gap:9px; }
+            .task-card { min-height:180px; padding:12px 10px; }
+            .task-emoji { width:39px; height:39px; flex-basis:39px; font-size:21px; }
+            .task-name { font-size:12px; }
+            .task-kind { font-size:7px; padding:4px 5px; }
+            .task-main-value strong { font-size:21px; }
+            .task-money-value { font-size:11px; }
+        }
+        @media (max-width:330px) { #grid-tasks { grid-template-columns:1fr; } .task-card { min-height:165px; } }
+
     </style>
 </head>
 <body>
     <div id="login-screen" class="login-box">
-        <h2>Вход в ABDU</h2>
-        <input type="number" id="login-id" placeholder="Твой Telegram ID" />
-        <button onclick="sendCode()">Получить код</button>
-        <input type="text" id="login-code" placeholder="Код из ЛС" style="display: none;" />
-        <button onclick="verifyCode()" style="display: none;">Войти</button>
-        <div id="login-status"></div>
+        <div class="login-mark"><span>AB</span><i></i></div>
+        <div class="login-heading">
+            <div class="login-kicker">ЛИЧНЫЙ КАБИНЕТ</div>
+            <h2>ABDU Manager</h2>
+            <p>Вход в панель статистики</p>
+        </div>
+        <label class="login-label" for="login-id">Telegram ID</label>
+        <input type="number" id="login-id" placeholder="Например, 123456789" inputmode="numeric" />
+        <button class="login-primary" onclick="sendCode()"><span>Получить код</span><b>→</b></button>
+        <div class="login-code-wrap">
+            <label class="login-label" for="login-code">Код подтверждения</label>
+            <input type="text" id="login-code" placeholder="Введи код из личных сообщений" style="display: none;" autocomplete="one-time-code" />
+        </div>
+        <button class="login-secondary" onclick="verifyCode()" style="display: none;">Подтвердить вход <span>→</span></button>
+        <div id="login-status" role="status" aria-live="polite"></div>
+        <div class="login-foot"><span class="login-lock">⌑</span> Защищённый вход через Telegram</div>
     </div>
 
     <div id="main-screen">
@@ -391,6 +466,13 @@
             grid.innerHTML = html;
         }
 
+        const TASK_RESOURCE_NAMES = {
+            "🥛": "Молоко", "🥪": "Бутер", "🧃": "Дерьмосок", "💊": "Таблетка",
+            "🌿": "Травка", "🍗": "Нагетс", "🥨": "Крендель", "🧵": "Нить",
+            "🌰": "Орех", "💩": "Говно", "🥚": "Яйцо", "🍺": "Пиво",
+            "🥫": "Томат", "🍳": "Яичница", "🌸": "Цветик", "🍕": "Сыропицца"
+        };
+
         function renderTasks() {
             const grid = document.getElementById('grid-tasks');
             if (!data[currentPeriod]) { grid.innerHTML = '<div class="empty-state">Нет данных за выбранный период</div>'; return; }
@@ -399,19 +481,25 @@
             let html = '';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                html += `<div class="card task-card">
-                    <div class="task-head">
-                        <div class="task-emoji">${item.name}</div>
+                const emoji = String(item.name || '📦');
+                const resourceName = TASK_RESOURCE_NAMES[emoji] || 'Неизвестный ресурс';
+                const amount = Number(item.amount || 0).toLocaleString('ru-RU');
+                const money = Number(item.money || 0).toLocaleString('ru-RU');
+                html += `<article class="card task-card" style="--task-accent:#ff9b42;--task-accent-soft:rgba(255,155,66,.12);--task-accent-line:rgba(255,155,66,.24);animation-delay:${Math.min(i, 8) * 45}ms">
+                    <div class="task-card-top">
+                        <div class="task-emoji">${emoji}</div>
                         <div class="task-title-wrap">
-                            <div class="task-index">ТАСК ${String(i + 1).padStart(2, '0')}</div>
-                            <div class="task-name">Ресурс</div>
+                            <div class="task-index">РЕСУРС · ${String(i + 1).padStart(2, '0')}</div>
+                            <div class="task-name">${resourceName}</div>
                         </div>
+                        <div class="task-kind">ТАСК</div>
                     </div>
-                    <div class="task-metrics">
-                        <div class="task-metric"><span>Количество</span><strong>${Number(item.amount || 0).toLocaleString('ru-RU')} шт.</strong></div>
-                        <div class="task-metric money"><span>Заработок</span><strong>${Number(item.money || 0).toLocaleString('ru-RU')} 💰</strong></div>
+                    <div class="task-main-value"><strong>${amount}</strong><span>единиц получено</span></div>
+                    <div class="task-card-bottom">
+                        <span class="task-money-label">Заработано</span>
+                        <strong class="task-money-value">${money} <small>💰</small></strong>
                     </div>
-                </div>`;
+                </article>`;
             }
             grid.innerHTML = html;
         }
