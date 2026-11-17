@@ -35,7 +35,11 @@
         .login-box button:disabled { background: #333; color: #777; cursor: not-allowed; }
         #login-status { color: var(--muted); font-size: 12px; text-align: center; min-height: 16px; }
 
-        #main-screen { display: none; width: 100%; max-width: 760px; }
+        #main-screen { display: none; width: 100%; max-width: 760px; --accent: #00e676; --accent-soft: rgba(0,230,118,.11); --accent-line: rgba(0,230,118,.22); --accent-glow: rgba(0,230,118,.14); --accent-ink: #06140b; }
+        #main-screen[data-theme="milk"] { --accent: #48a9ff; --accent-soft: rgba(72,169,255,.12); --accent-line: rgba(72,169,255,.24); --accent-glow: rgba(72,169,255,.15); --accent-ink: #071522; }
+        #main-screen[data-theme="tasks"] { --accent: #ff9b42; --accent-soft: rgba(255,155,66,.12); --accent-line: rgba(255,155,66,.24); --accent-glow: rgba(255,155,66,.15); --accent-ink: #211307; }
+        #main-screen[data-theme="graph-milk"] { --accent: #48a9ff; --accent-soft: rgba(72,169,255,.12); --accent-line: rgba(72,169,255,.24); --accent-glow: rgba(72,169,255,.15); --accent-ink: #071522; }
+        #main-screen[data-theme="graph-tasks"] { --accent: #ff9b42; --accent-soft: rgba(255,155,66,.12); --accent-line: rgba(255,155,66,.24); --accent-glow: rgba(255,155,66,.15); --accent-ink: #211307; }
         .top-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 2px 22px; }
         .brand { display: flex; flex-direction: column; gap: 4px; }
         .title { font-size: 23px; font-weight: 900; color: var(--text); letter-spacing: -.8px; line-height: 1.1; }
@@ -44,17 +48,17 @@
         .tabs { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 5px; background: rgba(21,25,23,.92); border: 1px solid var(--line); border-radius: 15px; padding: 5px; margin-bottom: 18px; width: 100%; }
         .tab { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; padding: 12px 8px; text-align: center; font-size: 12px; font-weight: 750; color: #87918a; cursor: pointer; border-radius: 11px; transition: background .18s ease, color .18s ease, transform .18s ease; white-space: nowrap; user-select: none; }
         .tab:hover { color: var(--text); background: rgba(255,255,255,.035); }
-        .tab.active { color: #06140b; background: var(--green); box-shadow: 0 5px 16px rgba(0,230,118,.14); }
+        .tab.active { color: var(--accent-ink); background: var(--accent); box-shadow: 0 5px 16px var(--accent-glow); }
         .section { animation: sectionIn .22s ease both; }
         @keyframes sectionIn { from { opacity: .55; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 4px 2px 14px; }
         .section-heading h2 { margin: 0; font-size: 18px; font-weight: 850; letter-spacing: -.45px; }
         .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
-        .section-icon { width: 38px; height: 38px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 12px; background: var(--green-soft); border: 1px solid rgba(0,230,118,.13); font-size: 18px; }
+        .section-icon { width: 38px; height: 38px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 12px; background: var(--accent-soft); border: 1px solid var(--accent-line); font-size: 18px; }
         .periods { display: flex; gap: 4px; background: #121613; border: 1px solid var(--line); border-radius: 12px; padding: 4px; margin-bottom: 14px; width: 100%; }
         .period { flex: 1; padding: 9px 5px; text-align: center; font-size: 11px; font-weight: 750; color: #778179; cursor: pointer; border-radius: 8px; transition: .18s ease; white-space: nowrap; user-select: none; }
         .period:hover { color: var(--text); }
-        .period.active { color: var(--green); background: #222b25; box-shadow: inset 0 0 0 1px rgba(0,230,118,.1); }
+        .period.active { color: var(--accent); background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--accent-line); }
 
         .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 11px; width: 100%; margin-bottom: 18px; align-items: stretch; }
         .grid .card:last-child:nth-child(odd) { grid-column: 1 / -1; width: calc(50% - 5.5px); justify-self: center; }
@@ -78,9 +82,9 @@
             background: linear-gradient(145deg, #1b241f, #141916 78%);
             animation: cardIn .42s cubic-bezier(.2,.75,.25,1) both;
         }
-        .task-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: linear-gradient(180deg, var(--green), rgba(0,230,118,.08)); }
+        .task-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: linear-gradient(180deg, #ff9b42, rgba(255,155,66,.08)); }
         .task-head { display: flex; align-items: center; gap: 11px; min-width: 0; }
-        .task-emoji { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; background: rgba(0,230,118,.09); border: 1px solid rgba(0,230,118,.13); font-size: 25px; }
+        .task-emoji { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; background: rgba(255,155,66,.10); border: 1px solid rgba(255,155,66,.18); font-size: 25px; }
         .task-title-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
         .task-name { color: var(--text); font-size: 13px; font-weight: 850; letter-spacing: -.15px; }
         .task-index { color: #758279; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
@@ -88,7 +92,7 @@
         .task-metric { background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.035); border-radius: 11px; padding: 10px; min-width: 0; }
         .task-metric span { display: block; color: #87948b; font-size: 9px; font-weight: 750; margin-bottom: 6px; }
         .task-metric strong { display: block; color: var(--text); font-size: clamp(12px, 2.8vw, 15px); font-weight: 900; letter-spacing: -.25px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
-        .task-metric.money strong { color: var(--green); }
+        .task-metric.money strong { color: #ffb36e; }
         .task-card:nth-child(2n) { animation-delay: .045s; }
         .task-card:nth-child(3n) { animation-delay: .09s; }
         .empty-state { grid-column: 1 / -1; padding: 28px 16px; text-align: center; border: 1px dashed rgba(255,255,255,.1); border-radius: 15px; color: var(--muted); font-size: 12px; background: rgba(255,255,255,.015); }
@@ -109,8 +113,15 @@
         .calendar-cell.c-green .day-number, .calendar-cell.c-green .day-value { color: #101510; }
         .calendar-cell.c-gray .day-value { color: #aab4ad; }
         #calendar-title { text-align: center; font-size: 14px; font-weight: 800; color: #dbe5de; margin-bottom: 12px !important; }
-        .chart-container { width: 100%; height: 300px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 8px 22px rgba(0,0,0,.12); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: rgba(0,230,118,.3) transparent; }
-        .chart-container canvas { display: block; }
+        .graph-types { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 7px; margin-bottom: 12px; }
+        .graph-type { min-width: 0; border: 1px solid var(--line); border-radius: 11px; padding: 11px 6px; background: var(--surface); color: var(--muted); font-size: 11px; font-weight: 800; cursor: pointer; transition: .18s ease; }
+        .graph-type.active { color: var(--accent); border-color: var(--accent-line); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent-line); }
+        .chart-container { width: 100%; height: 310px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 13px 10px 10px; box-shadow: 0 8px 22px rgba(0,0,0,.12); overflow: hidden; }
+        .chart-container canvas { display: block; width: 100% !important; height: 100% !important; }
+        .chart-data-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 7px; margin-top: 10px; }
+        .chart-data-item { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-width: 0; padding: 8px 9px; border-radius: 9px; background: var(--surface); border: 1px solid var(--line); font-size: 10px; }
+        .chart-data-item span { color: var(--muted); white-space: nowrap; }
+        .chart-data-item strong { color: var(--accent); font-size: 11px; font-variant-numeric: tabular-nums; }
         .calendar-cell:not(.empty) { animation: cellIn .32s ease both; }
         .calendar-cell:nth-child(7n + 1) { animation-delay: .02s; }
         .calendar-cell:nth-child(7n + 2) { animation-delay: .04s; }
@@ -139,7 +150,9 @@
             .name { font-size: 12px; }
             .val { font-size: 11px; }
             .period { font-size: 10px; padding: 9px 2px; }
-            .chart-container { height: 275px; padding: 10px; }
+            .chart-container { height: 270px; padding: 10px 7px 7px; }
+            .chart-data-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
+            .graph-type { font-size: 10px; padding: 10px 3px; }
             .task-card { padding: 12px; gap: 10px; }
             .task-emoji { width: 42px; height: 42px; font-size: 22px; }
             .task-metric { padding: 9px 8px; }
@@ -212,12 +225,18 @@
 
         <div id="section-graph" class="section" style="display: none;">
             <div class="section-heading"><div><h2>📈 График</h2><p>Динамика генераций по времени</p></div><div class="section-icon">📈</div></div>
+            <div class="graph-types" id="graph-types">
+                <button class="graph-type active" data-kind="sales" onclick="setGraphType('sales', this)">💎 Генки</button>
+                <button class="graph-type" data-kind="milk" onclick="setGraphType('milk', this)">🥛 Дойка</button>
+                <button class="graph-type" data-kind="tasks" onclick="setGraphType('tasks', this)">📦 Таски</button>
+            </div>
             <div class="periods" id="periods-graph">
                 <div class="period active" onclick="drawChart('today', this)">Сутки</div>
                 <div class="period" onclick="drawChart('week', this)">Неделя</div>
                 <div class="period" onclick="drawChart('month', this)">Месяц</div>
             </div>
             <div class="chart-container"><canvas id="myChart"></canvas></div>
+            <div class="chart-data-list" id="chart-data-list" aria-label="Точные значения графика"></div>
         </div>
 
         <div id="section-calendar" class="section" style="display: none;">
@@ -242,6 +261,8 @@
         let currentSection = 'sales';
         let currentPeriod = 'today';
         let chart = null;
+        let currentGraphType = 'sales';
+        let currentGraphPeriod = 'today';
 
         const savedToken = localStorage.getItem('auth_token');
         if (savedToken) {
@@ -302,6 +323,7 @@
         function showMainScreen() {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-screen').style.display = 'block';
+            document.getElementById('main-screen').dataset.theme = 'sales';
         }
 
         function logout() {
@@ -314,13 +336,15 @@
                 const res = await fetch('data.json?t=' + Date.now());
                 data = await res.json();
                 render();
-                if (currentSection === 'graph') drawChart(currentPeriod);
+                if (currentSection === 'graph') drawChart(currentGraphPeriod);
                 if (currentSection === 'calendar') drawCalendar(0);
             } catch (e) { console.error(e); }
         }
 
         function showSection(s, el) {
             currentSection = s;
+            const theme = s === 'sales' ? 'sales' : s === 'milk' ? 'milk' : s === 'tasks' ? 'tasks' : s === 'graph' ? `graph-${currentGraphType}` : 'sales';
+            document.getElementById('main-screen').dataset.theme = theme;
             document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
             document.getElementById('section-' + s).style.display = 'block';
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -351,9 +375,9 @@
             const unit = currentSection === 'milk' ? 'молока' : 'ген.';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                const border = ["#ffd700", "#c0c0c0", "#cd7f32", "#333", "#333"][i];
+                const border = currentSection === 'milk' ? '#48a9ff' : '#00e676';
                 const comp = currentSection === 'sales' ? getCompliment(item.name) : '';
-                html += `<div class="card top-${i+1}">
+                html += `<div class="card" style="border-top-color:${border}; background:linear-gradient(145deg, ${currentSection === 'milk' ? 'rgba(72,169,255,.08)' : 'rgba(0,230,118,.07)'}, #171c19 68%);">
                     <div class="card-top">
                         <div class="avatar-box" style="border-color: ${border};"><img src="${item.ava}" alt=""></div>
                         <div class="info">
@@ -392,79 +416,111 @@
             grid.innerHTML = html;
         }
 
+        function setGraphType(kind, el) {
+            currentGraphType = kind;
+            document.querySelectorAll('#graph-types .graph-type').forEach(button => button.classList.toggle('active', button === el));
+            const theme = kind === 'sales' ? 'sales' : `graph-${kind}`;
+            document.getElementById('main-screen').dataset.theme = theme;
+            const descriptions = {
+                sales: 'Динамика генераций по времени',
+                milk: 'Динамика собранного молока по времени',
+                tasks: 'Количество ресурсов из выполненных тасков'
+            };
+            document.querySelector('#section-graph .section-heading p').textContent = descriptions[kind];
+            drawChart(currentGraphPeriod);
+        }
+
+        function getGraphData(period, kind) {
+            const bucket = data[period] || {};
+            if (bucket.graphs && bucket.graphs[kind]) return bucket.graphs[kind];
+            // Backward compatibility with older data.json: it only contains the sales graph.
+            if (kind === 'sales' && bucket.graph) return bucket.graph;
+            return null;
+        }
+
         function drawChart(period, el) {
             if (el) {
-                currentPeriod = period;
+                currentGraphPeriod = period;
                 document.querySelectorAll('#periods-graph .period').forEach(p => p.classList.remove('active'));
                 el.classList.add('active');
             }
-            if (!data[period] || !data[period].graph) return;
-            
-            const graph = data[period].graph;
+            const graph = getGraphData(period, currentGraphType);
+            const canvas = document.getElementById('myChart');
+            const list = document.getElementById('chart-data-list');
+            if (chart) { chart.destroy(); chart = null; }
+            if (!graph) {
+                list.innerHTML = '<div class="empty-state">Для этого графика пока нет данных. Обнови data.json генератором сайта.</div>';
+                return;
+            }
+
             const labels = graph.labels || [];
             const values = graph.values || [];
-            const container = document.querySelector('.chart-container');
-            const canvas = document.getElementById('myChart');
-            const chartWidth = Math.max(container.clientWidth - 34, labels.length * 36);
-            canvas.style.width = chartWidth + 'px';
-            canvas.style.height = '248px';
-            if (chart) chart.destroy();
+            if (!labels.length || !values.length) {
+                list.innerHTML = '<div class="empty-state">Нет данных за выбранный период</div>';
+                return;
+            }
+            const palette = {
+                sales: { label: 'Генерации', color: '#00e676', fill: 'rgba(0,230,118,.76)', unit: 'ген.' },
+                milk: { label: 'Дойка', color: '#48a9ff', fill: 'rgba(72,169,255,.76)', unit: 'молока' },
+                tasks: { label: 'Таски', color: '#ff9b42', fill: 'rgba(255,155,66,.78)', unit: 'ресурсов' }
+            }[currentGraphType];
+            const fmt = value => Number(value || 0).toLocaleString('ru-RU');
 
-            const exactValueLabels = {
-                id: 'exactValueLabels',
-                afterDatasetsDraw(chartInstance) {
-                    const {ctx} = chartInstance;
-                    const meta = chartInstance.getDatasetMeta(0);
-                    ctx.save();
-                    ctx.font = '700 10px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom';
-                    ctx.fillStyle = '#dce9e0';
-                    meta.data.forEach((bar, index) => {
-                        const value = Number(values[index] || 0);
-                        const text = value.toLocaleString('ru-RU');
-                        ctx.fillText(text, bar.x, Math.max(bar.y - 5, chartInstance.chartArea.top + 12));
-                    });
-                    ctx.restore();
-                }
-            };
+            list.innerHTML = labels.map((label, i) =>
+                `<div class="chart-data-item"><span>${label}</span><strong>${fmt(values[i])}</strong></div>`
+            ).join('');
 
             chart = new Chart(canvas.getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels,
                     datasets: [{
-                        label: 'Генерации',
+                        label: palette.label,
                         data: values,
-                        backgroundColor: 'rgba(0, 230, 118, 0.76)',
-                        hoverBackgroundColor: '#00e676',
-                        borderColor: '#00e676',
+                        backgroundColor: palette.fill,
+                        hoverBackgroundColor: palette.color,
+                        borderColor: palette.color,
                         borderWidth: 1,
-                        borderRadius: 7,
+                        borderRadius: 6,
                         borderSkipped: false,
-                        maxBarThickness: 27,
+                        maxBarThickness: 24,
                         categoryPercentage: .78,
-                        barPercentage: .86
+                        barPercentage: .84
                     }]
                 },
-                plugins: [exactValueLabels],
                 options: {
-                    responsive: false,
+                    responsive: true,
                     maintainAspectRatio: false,
-                    layout: { padding: { top: 22, right: 8, left: 4, bottom: 0 } },
-                    animation: { duration: 720, easing: 'easeOutQuart' },
+                    layout: { padding: { top: 8, right: 5, left: 1, bottom: 0 } },
+                    animation: { duration: 650, easing: 'easeOutQuart' },
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
                             displayColors: false,
+                            backgroundColor: '#202923',
+                            titleColor: '#f3f7f4',
+                            bodyColor: palette.color,
+                            padding: 11,
                             callbacks: {
-                                label: context => `${Number(context.raw || 0).toLocaleString('ru-RU')} генераций`
+                                title: items => items[0]?.label || '',
+                                label: context => `${palette.label}: ${fmt(context.raw)} ${palette.unit}`
                             }
                         }
                     },
                     scales: {
-                        x: { grid: { display: false }, ticks: { color: '#9aa69e', maxRotation: 0, autoSkip: false, font: { size: 10 } } },
-                        y: { beginAtZero: true, grace: '12%', grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#89958d', precision: 0, callback: value => Number(value).toLocaleString('ru-RU') } }
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#9aa69e', maxRotation: 0, minRotation: 0, autoSkip: true, maxTicksLimit: 7, font: { size: 10 } },
+                            border: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grace: '8%',
+                            grid: { color: 'rgba(255,255,255,.07)' },
+                            ticks: { color: '#89958d', precision: 0, maxTicksLimit: 5, callback: value => fmt(value), font: { size: 10 } },
+                            border: { display: false }
+                        }
                     }
                 }
             });
