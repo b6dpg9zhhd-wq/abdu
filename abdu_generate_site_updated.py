@@ -128,6 +128,39 @@ def get_data():
             },
             "calendar": get_calendar_data(con, 0)
         }
+    # Detailed operation journal for the website (latest 1,000 rows per source).
+    logs = []
+    sales_rows = con.execute("""
+        SELECT s.ts, COALESCE(b.nickname, b.username, 'id' || s.buyer_id),
+               s.count, s.buyer_id
+        FROM sales s LEFT JOIN buyers b ON b.buyer_id = s.buyer_id
+        ORDER BY s.ts DESC LIMIT 1000
+    """).fetchall()
+    for ts, name, amount, uid in sales_rows:
+        logs.append({"ts": ts, "type": "sales", "typeLabel": "💎 Генки",
+                     "name": name, "detail": "Генерация", "amount": int(amount or 0), "money": 0})
+
+    milk_rows = con.execute("""
+        SELECT m.ts, COALESCE(b.nickname, b.username, 'id' || m.user_id),
+               m.count, m.user_id
+        FROM milk m LEFT JOIN buyers b ON b.buyer_id = m.user_id
+        ORDER BY m.ts DESC LIMIT 1000
+    """).fetchall()
+    for ts, name, amount, uid in milk_rows:
+        logs.append({"ts": ts, "type": "milk", "typeLabel": "🥛 Дойка",
+                     "name": name, "detail": "Дойка", "amount": int(amount or 0), "money": 0})
+
+    task_rows = con.execute("""
+        SELECT ts, COALESCE(worker, '—'), resource, amount, money
+        FROM tasks ORDER BY ts DESC LIMIT 1000
+    """).fetchall()
+    for ts, name, resource, amount, money in task_rows:
+        logs.append({"ts": ts, "type": "tasks", "typeLabel": "📦 Таски",
+                     "name": name, "detail": str(resource or "Ресурс"),
+                     "amount": int(amount or 0), "money": int(money or 0)})
+
+    logs.sort(key=lambda item: item.get("ts") or "", reverse=True)
+    data["logs"] = logs[:2000]
     con.close()
     return data
 

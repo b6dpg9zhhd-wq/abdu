@@ -5688,3 +5688,25 @@ OK: data.json обновлен (с графиками и календарем)
 OK: data.json обновлен (с графиками и календарем)
 fatal: index.html: no such path in the working tree.
 Use 'git <command> -- <path>...' to specify paths that do not exist locally.
+[main 1c8d5d2] Auto-update 2026-11-17 17:39
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 162 insertions(+), 9 deletions(-)
+ rename index.html => index.html  (80%)
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+   389f385..1c8d5d2  main -> main
+Сайт обновлен
+python3: can't open file '/root/abdu/site/generate_site.py': [Errno 2] No such file or directory
+fatal: index.html: no such path in the working tree.
+Use 'git <command> -- <path>...' to specify paths that do not exist locally.
