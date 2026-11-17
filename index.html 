@@ -281,6 +281,56 @@
             .calendar-cell .day-value { font-size:clamp(9px,2.7vw,12px); }
         }
 
+    
+        /* Refined genetics, milk and spreadsheet-style activity log */
+        .gen-card {
+            position:relative; overflow:hidden; padding:17px; gap:13px;
+            border:1px solid rgba(0,230,118,.18);
+            background:linear-gradient(145deg,rgba(0,230,118,.105),rgba(20,27,23,.98) 58%);
+        }
+        .gen-card::before { content:""; position:absolute; width:170px; height:170px; right:-90px; top:-105px; border-radius:50%; background:rgba(0,230,118,.10); filter:blur(2px); pointer-events:none; }
+        .gen-head { display:flex; align-items:center; gap:11px; position:relative; z-index:1; }
+        .gen-head .avatar-box { width:48px; height:48px; flex:0 0 48px; border:1px solid rgba(0,230,118,.65); }
+        .gen-rank { width:29px; height:29px; display:grid; place-items:center; border-radius:9px; background:rgba(0,230,118,.13); color:#73ffb4; font-size:11px; font-weight:900; }
+        .gen-rank.first { background:linear-gradient(135deg,#b7ffd7,#00e676); color:#062313; }
+        .gen-user { min-width:0; flex:1; }
+        .gen-user .name { font-size:15px; font-weight:850; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .gen-user small { display:block; margin-top:3px; color:#78a58b; font-size:9px; letter-spacing:1.1px; font-weight:850; }
+        .gen-value { display:flex; align-items:baseline; gap:7px; padding-left:40px; position:relative; z-index:1; }
+        .gen-value strong { color:#65f5a8; font-size:clamp(27px,7vw,35px); line-height:1; font-weight:950; letter-spacing:-1.2px; font-variant-numeric:tabular-nums; }
+        .gen-value span { color:#9eb6a7; font-size:11px; font-weight:750; }
+        .gen-quote { position:relative; padding:11px 42px 11px 13px; min-height:43px; border:1px solid rgba(0,230,118,.13); border-left:3px solid #00e676; border-radius:12px; background:rgba(0,0,0,.18); color:#c4d7cb; font-size:12px; line-height:1.45; }
+        .gen-quote button { position:absolute; right:7px; top:50%; transform:translateY(-50%); border:1px solid rgba(0,230,118,.24); background:rgba(0,230,118,.10); color:#8affbd; border-radius:8px; padding:6px 8px; font-size:10px; font-weight:800; cursor:pointer; }
+        .milk-card { padding:16px; border-radius:18px; background:linear-gradient(145deg,rgba(72,169,255,.09),#151c23 68%); border:1px solid rgba(72,169,255,.18); gap:12px; }
+        .milk-card-head { display:flex; align-items:center; gap:11px; }
+        .milk-card .avatar-box { width:46px; height:46px; margin:0; border:1px solid rgba(72,169,255,.55); }
+        .milk-rank { display:grid; place-items:center; min-width:29px; height:29px; border-radius:9px; background:rgba(72,169,255,.13); border:1px solid rgba(72,169,255,.22); color:#9bd0ff; font-size:11px; font-weight:900; }
+        .milk-rank-1 .milk-rank { color:#061a2b; background:#8bcaff; border-color:#8bcaff; }
+        .milk-caption { color:#7fa9cc; font-size:9px; font-weight:850; letter-spacing:1px; }
+        .milk-score { display:flex; align-items:baseline; gap:7px; padding-left:40px; }
+        .milk-score strong { color:#8ccaff; font-size:clamp(27px,7vw,35px); line-height:1; font-weight:950; font-variant-numeric:tabular-nums; }
+        .milk-score span { color:#a6bdcf; font-size:11px; font-weight:750; }
+        .milk-progress { height:6px; margin-left:40px; border-radius:99px; overflow:hidden; background:rgba(72,169,255,.10); }
+        .milk-progress i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#2789df,#75c1ff); box-shadow:0 0 12px rgba(72,169,255,.30); }
+        .log-toolbar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+        .log-control { min-height:38px; border:1px solid var(--line); border-radius:11px; padding:0 11px; color:var(--text); background:var(--surface-2); font:inherit; font-size:12px; outline:none; }
+        .log-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin:12px 0; }
+        .log-kpi { padding:12px; border:1px solid var(--line); border-radius:13px; background:var(--surface); min-width:0; }
+        .log-kpi span { display:block; color:var(--muted); font-size:10px; font-weight:750; }
+        .log-kpi strong { display:block; margin-top:5px; font-size:18px; font-weight:900; font-variant-numeric:tabular-nums; }
+        .log-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:14px; background:#111613; -webkit-overflow-scrolling:touch; }
+        .log-table { width:100%; min-width:690px; border-collapse:collapse; font-size:11px; }
+        .log-table th { position:sticky; top:0; z-index:1; padding:11px 10px; text-align:left; color:#a5b4aa; background:#1b241e; font-size:9px; letter-spacing:.8px; text-transform:uppercase; white-space:nowrap; }
+        .log-table td { padding:10px; border-top:1px solid rgba(255,255,255,.045); color:#dce7df; white-space:nowrap; }
+        .log-table tr:hover td { background:rgba(255,255,255,.025); }
+        .log-type { display:inline-flex; align-items:center; gap:5px; padding:4px 7px; border-radius:7px; font-weight:850; }
+        .log-type.sales { color:#76f5ae; background:rgba(0,230,118,.10); }
+        .log-type.milk { color:#8ccaff; background:rgba(72,169,255,.11); }
+        .log-type.tasks { color:#ffbd7e; background:rgba(255,155,66,.12); }
+        .log-positive { color:#75f2a8 !important; font-weight:850; }
+        .log-empty { padding:22px; text-align:center; color:var(--muted); font-size:12px; }
+        @media(max-width:420px) { .log-summary { gap:6px; } .log-kpi { padding:9px; } .log-kpi strong { font-size:15px; } }
+
     </style>
 </head>
 <body>
@@ -317,6 +367,7 @@
             <div class="tab" onclick="showSection('milk', this)">🥛 Дойка</div>
             <div class="tab" onclick="showSection('graph', this)">📈 График</div>
             <div class="tab" onclick="showSection('calendar', this)">📅 Календарь</div>
+            <div class="tab" onclick="showSection('logs', this)">📑 Логи</div>
         </div>
         
         <div id="section-sales" class="section active">
@@ -378,6 +429,21 @@
             <div id="calendar-grid" class="calendar-grid"></div>
         </div>
 
+        <div id="section-logs" class="section" style="display:none;">
+            <div class="section-heading"><div><h2>📑 Подробные логи</h2><p>Журнал операций в табличном формате</p></div><div class="section-icon">📑</div></div>
+            <div class="log-summary" id="log-summary"></div>
+            <div class="log-toolbar">
+                <select id="log-type-filter" class="log-control" onchange="renderLogs()">
+                    <option value="all">Все операции</option><option value="sales">Генки</option><option value="milk">Дойка</option><option value="tasks">Таски</option>
+                </select>
+                <select id="log-period-filter" class="log-control" onchange="renderLogs()">
+                    <option value="today">Сегодня</option><option value="week" selected>7 дней</option><option value="month">30 дней</option><option value="all">Всё время</option>
+                </select>
+                <input id="log-search" class="log-control" placeholder="Поиск по имени / ресурсу" oninput="renderLogs()" style="flex:1;min-width:150px;">
+            </div>
+            <div class="log-table-wrap"><table class="log-table"><thead><tr><th>Дата и время</th><th>Тип</th><th>Участник</th><th>Действие / ресурс</th><th>Количество</th><th>Муни</th></tr></thead><tbody id="log-table-body"></tbody></table></div>
+            <div id="log-count" style="padding:10px 2px;color:var(--muted);font-size:10px;"></div>
+        </div>
         <div class="footer">Мур-мур, вы лучшие! 🐾</div>
         <button id="logout-btn" onclick="logout()">Выйти</button>
     </div>
@@ -481,6 +547,7 @@
             render();
             if (s === 'graph') drawChart(currentPeriod);
             if (s === 'calendar') drawCalendar(0);
+            if (s === 'logs') renderLogs();
         }
 
         function setPeriod(p, el) {
@@ -503,13 +570,14 @@
             let html = '';
             const isMilk = currentSection === 'milk';
             const unit = isMilk ? 'доек' : 'ген.';
-            const border = isMilk ? '#48a9ff' : '#00e676';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 const value = Number(item.val || 0).toLocaleString('ru-RU');
-                const comp = !isMilk ? getCompliment(item.name) : '';
+                const quoteKey = `abdu_quote_${item.uid || item.name}`;
+                const savedQuote = localStorage.getItem(quoteKey);
+                const quote = savedQuote !== null ? savedQuote : (item.quote || 'Своя цитата ещё не добавлена');
                 if (isMilk) {
-                    html += `<article class="card milk-card milk-rank-${Math.min(i + 1, 3)}" style="--milk-accent:${border};animation-delay:${Math.min(i, 8) * 55}ms">
+                    html += `<article class="card milk-card milk-rank-${Math.min(i + 1, 3)}" style="animation-delay:${Math.min(i, 8) * 55}ms">
                         <div class="milk-card-head">
                             <span class="milk-rank">${i === 0 ? '👑' : `#${i + 1}`}</span>
                             <div class="avatar-box"><img src="${item.ava}" alt=""></div>
@@ -519,14 +587,33 @@
                         <div class="milk-progress"><i style="width:${Math.max(8, Number(item.val || 0) / Math.max(1, Number(items[0].val || 1)) * 100)}%"></i></div>
                     </article>`;
                 } else {
-                    html += `<div class="card" style="border-top-color:${border};background:linear-gradient(145deg,rgba(0,230,118,.07),#171c19 68%);">
-                        <div class="card-top"><div class="avatar-box" style="border-color:${border};"><img src="${item.ava}" alt=""></div>
-                            <div class="info"><div class="name" style="color:${border};">${item.name}</div><div class="val">${value} ${unit}</div></div></div>
-                        <div class="compliment-box" style="border-left-color:${border};"><span class="quote-mark" style="color:${border};">”</span>${comp}</div>
-                    </div>`;
+                    html += `<article class="card gen-card" style="animation-delay:${Math.min(i, 8) * 55}ms">
+                        <div class="gen-head">
+                            <span class="gen-rank ${i === 0 ? 'first' : ''}">${i === 0 ? '👑' : `#${i + 1}`}</span>
+                            <div class="avatar-box"><img src="${item.ava}" alt=""></div>
+                            <div class="gen-user"><div class="name">${item.name}</div><small>УЧАСТНИК · ГЕНЕРАЦИИ</small></div>
+                        </div>
+                        <div class="gen-value"><strong>${value}</strong><span>${unit}</span></div>
+                        <div class="gen-quote"><span class="quote-text">${escapeHtml(quote)}</span><button onclick="editQuote('${String(item.uid || item.name).replace(/'/g, "\\'")}','${String(item.name).replace(/'/g, "\\'")}')">Изменить</button></div>
+                    </article>`;
                 }
             }
             grid.innerHTML = html;
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+        }
+
+        function editQuote(id, name) {
+            const key = `abdu_quote_${id}`;
+            const current = localStorage.getItem(key) || '';
+            const next = prompt(`Своя цитата для ${name}:`, current);
+            if (next === null) return;
+            const clean = next.trim().slice(0, 180);
+            if (!clean) localStorage.removeItem(key);
+            else localStorage.setItem(key, clean);
+            renderCards();
         }
 
         const TASK_RESOURCE_NAMES = {
@@ -716,6 +803,43 @@
         }
 
         setInterval(() => { if (isAuthorized) loadData(); }, 60000);
+
+        function renderLogs() {
+            const body = document.getElementById('log-table-body');
+            if (!body) return;
+            const type = document.getElementById('log-type-filter')?.value || 'all';
+            const period = document.getElementById('log-period-filter')?.value || 'week';
+            const search = (document.getElementById('log-search')?.value || '').toLowerCase().trim();
+            const source = Array.isArray(data.logs) ? data.logs : [];
+            const cutoff = period === 'today' ? new Date(new Date().setHours(0,0,0,0)) :
+                period === 'week' ? new Date(Date.now() - 7*86400000) :
+                period === 'month' ? new Date(Date.now() - 30*86400000) : null;
+            const rows = source.filter(row => {
+                if (type !== 'all' && row.type !== type) return false;
+                if (cutoff && new Date(row.ts) < cutoff) return false;
+                return !search || `${row.name} ${row.detail} ${row.typeLabel}`.toLowerCase().includes(search);
+            });
+            const all = source.filter(row => !cutoff || new Date(row.ts) >= cutoff);
+            const totals = {
+                sales: all.filter(x=>x.type==='sales').reduce((a,x)=>a+Number(x.amount||0),0),
+                milk: all.filter(x=>x.type==='milk').reduce((a,x)=>a+Number(x.amount||0),0),
+                money: all.filter(x=>x.type==='tasks').reduce((a,x)=>a+Number(x.money||0),0)
+            };
+            document.getElementById('log-summary').innerHTML = `
+                <div class="log-kpi"><span>💎 Генераций</span><strong>${totals.sales.toLocaleString('ru-RU')}</strong></div>
+                <div class="log-kpi"><span>🥛 Доек</span><strong>${totals.milk.toLocaleString('ru-RU')}</strong></div>
+                <div class="log-kpi"><span>🪙 Муни</span><strong>${totals.money.toLocaleString('ru-RU')}</strong></div>`;
+            if (!rows.length) body.innerHTML = '<tr><td colspan="6" class="log-empty">Операций не найдено</td></tr>';
+            else body.innerHTML = rows.slice(0,500).map(row => {
+                const date = new Date(row.ts);
+                const dateText = isNaN(date) ? row.ts : date.toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
+                const kind = row.type === 'sales' ? 'sales' : row.type === 'milk' ? 'milk' : 'tasks';
+                const label = row.typeLabel || (kind==='sales'?'💎 Генки':kind==='milk'?'🥛 Дойка':'📦 Таски');
+                return `<tr><td>${escapeHtml(dateText)}</td><td><span class="log-type ${kind}">${escapeHtml(label)}</span></td><td>${escapeHtml(row.name || '—')}</td><td>${escapeHtml(row.detail || '—')}</td><td>${Number(row.amount||0).toLocaleString('ru-RU')}</td><td class="log-positive">${Number(row.money||0) ? Number(row.money).toLocaleString('ru-RU') : '—'}</td></tr>`;
+            }).join('');
+            document.getElementById('log-count').textContent = `Показано ${Math.min(rows.length,500)} из ${rows.length} операций`;
+        }
+
     </script>
 </body>
 </html>
