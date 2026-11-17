@@ -227,6 +227,60 @@
         }
         @media (max-width:330px) { #grid-tasks { grid-template-columns:1fr; } .task-card { min-height:165px; } }
 
+
+        /* ABDU visual refinement: clearer analytics, calendar and milk ranking */
+        .chart-container {
+            height: 300px; min-height: 260px; padding: 18px 14px 14px;
+            border: 1px solid rgba(255,255,255,.075);
+            border-radius: 20px;
+            background: radial-gradient(ellipse at 50% 0%, var(--accent-soft), transparent 62%), linear-gradient(145deg,#171d19,#111613 78%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.035), 0 14px 34px rgba(0,0,0,.18);
+        }
+        .chart-data-list { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-top: 12px; }
+        .chart-data-heading { grid-column: 1/-1; display:flex; justify-content:space-between; padding: 3px 2px 5px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; }
+        .chart-data-item { padding: 9px 10px; min-height:38px; border-radius:11px; background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)); border:1px solid rgba(255,255,255,.055); }
+        .chart-data-item span { font-size:10px; }
+        .chart-data-item strong { font-size:12px; }
+        .graph-types { gap:8px; }
+        .graph-type { min-height:44px; border-radius:13px; font-size:12px; }
+        .graph-type[data-kind="sales"].active { color:#06140b; background:#00e676; border-color:#00e676; }
+        .graph-type[data-kind="milk"].active { color:#071522; background:#48a9ff; border-color:#48a9ff; }
+        .graph-type[data-kind="tasks"].active { color:#211307; background:#ff9b42; border-color:#ff9b42; }
+        .calendar-weekdays { gap:6px; padding:0 12px 10px; color:#8e9b92; font-size:10px; }
+        .calendar-grid { gap:6px; padding:13px; border-radius:20px; background:linear-gradient(145deg,#171d19,#111613); border:1px solid rgba(255,255,255,.075); box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 14px 34px rgba(0,0,0,.16); }
+        .calendar-cell { aspect-ratio:1/1; min-height:0; border-radius:11px; background:#202823; border:1px solid rgba(255,255,255,.035); transition:transform .18s ease,filter .18s ease; }
+        .calendar-cell:not(.empty):active { transform:scale(.95); }
+        .calendar-cell .day-number { top:6px; left:7px; font-size:10px; color:rgba(255,255,255,.75); }
+        .calendar-cell .day-value { padding:12px 2px 0; font-size:clamp(10px,2.6vw,14px); font-weight:900; font-variant-numeric:tabular-nums; }
+        .calendar-cell.c-gray { background:linear-gradient(145deg,#202823,#1a211d); }
+        .calendar-cell.c-red { background:linear-gradient(145deg,#9d4847,#703332); }
+        .calendar-cell.c-orange { background:linear-gradient(145deg,#b96b2a,#814719); }
+        .calendar-cell.c-yellow { background:linear-gradient(145deg,#b99b36,#806a24); }
+        .calendar-cell.c-green { background:linear-gradient(145deg,#00b968,#087c4a); }
+        .calendar-cell.is-today { outline:2px solid var(--accent); outline-offset:2px; box-shadow:0 0 0 4px var(--accent-soft); }
+        #calendar-title { display:inline-flex; margin:0 auto 14px !important; padding:9px 15px; border:1px solid var(--accent-line); border-radius:12px; background:var(--accent-soft); color:var(--text); font-size:14px; }
+        #section-calendar { text-align:center; }
+        .milk-card { --milk-accent:#48a9ff; position:relative; gap:13px; padding:15px; overflow:hidden; border:1px solid rgba(72,169,255,.15); background:linear-gradient(145deg,rgba(72,169,255,.12),#151b20 66%); }
+        .milk-card::after { content:""; position:absolute; width:130px; height:130px; right:-65px; top:-75px; border-radius:50%; background:radial-gradient(circle,rgba(72,169,255,.13),transparent 70%); pointer-events:none; }
+        .milk-card-head { display:flex; align-items:center; gap:10px; min-width:0; }
+        .milk-card .avatar-box { width:44px; height:44px; margin:0; border-color:rgba(72,169,255,.65); }
+        .milk-rank { display:grid; place-items:center; min-width:30px; height:30px; padding:0 7px; border-radius:10px; color:#9bd0ff; background:rgba(72,169,255,.12); border:1px solid rgba(72,169,255,.2); font-size:11px; font-weight:900; }
+        .milk-rank-1 .milk-rank { color:#081725; background:#8bcaff; border-color:#8bcaff; }
+        .milk-caption { color:#7799b6; font-size:8px; font-weight:850; letter-spacing:1px; }
+        .milk-score { display:flex; align-items:baseline; gap:7px; padding-left:40px; }
+        .milk-score strong { color:#8ccaff; font-size:clamp(25px,6vw,32px); line-height:1; font-weight:950; letter-spacing:-1px; font-variant-numeric:tabular-nums; }
+        .milk-score span { color:#9baebd; font-size:11px; font-weight:750; }
+        .milk-progress { height:5px; margin-left:40px; border-radius:99px; overflow:hidden; background:rgba(72,169,255,.10); }
+        .milk-progress i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#2789df,#75c1ff); box-shadow:0 0 12px rgba(72,169,255,.35); }
+        @media(max-width:480px) {
+            .chart-container { height:270px; padding:13px 8px 10px; }
+            .chart-data-list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .calendar-grid { gap:4px; padding:9px; }
+            .calendar-cell { border-radius:8px; }
+            .calendar-cell .day-number { top:4px; left:5px; font-size:9px; }
+            .calendar-cell .day-value { font-size:clamp(9px,2.7vw,12px); }
+        }
+
     </style>
 </head>
 <body>
@@ -288,7 +342,7 @@
         </div>
 
         <div id="section-milk" class="section" style="display: none;">
-            <div class="section-heading"><div><h2>🥛 Дойка</h2><p>Рейтинг участников по собранному молоку</p></div><div class="section-icon">🥛</div></div>
+            <div class="section-heading"><div><h2>🥛 Дойка</h2><p>Рейтинг дояров</p></div><div class="section-icon">🥛</div></div>
             <div class="periods" id="periods-milk">
                 <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
                 <div class="period" onclick="setPeriod('week', this)">Неделя</div>
@@ -315,7 +369,7 @@
         </div>
 
         <div id="section-calendar" class="section" style="display: none;">
-            <div class="section-heading"><div><h2>📅 Календарь</h2><p>Активность генераций по дням</p></div><div class="section-icon">📅</div></div>
+            <div class="section-heading"><div><h2>📅 Календарь</h2><p>Количество генераций по дням</p></div><div class="section-icon">📅</div></div>
             <div class="periods" id="periods-calendar">
                 <div class="period active" onclick="drawCalendar(0, this)">Текущий</div>
             </div>
@@ -447,21 +501,30 @@
             const items = data[currentPeriod][currentSection] || [];
             if (!items.length) { grid.innerHTML = '<div class="empty-state">Пока нет данных за этот период</div>'; return; }
             let html = '';
-            const unit = currentSection === 'milk' ? 'молока' : 'ген.';
+            const isMilk = currentSection === 'milk';
+            const unit = isMilk ? 'доек' : 'ген.';
+            const border = isMilk ? '#48a9ff' : '#00e676';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
-                const border = currentSection === 'milk' ? '#48a9ff' : '#00e676';
-                const comp = currentSection === 'sales' ? getCompliment(item.name) : '';
-                html += `<div class="card" style="border-top-color:${border}; background:linear-gradient(145deg, ${currentSection === 'milk' ? 'rgba(72,169,255,.08)' : 'rgba(0,230,118,.07)'}, #171c19 68%);">
-                    <div class="card-top">
-                        <div class="avatar-box" style="border-color: ${border};"><img src="${item.ava}" alt=""></div>
-                        <div class="info">
-                            <div class="name" style="color: ${border};">${item.name}</div>
-                            <div class="val">${Number(item.val || 0).toLocaleString('ru-RU')} ${unit}</div>
+                const value = Number(item.val || 0).toLocaleString('ru-RU');
+                const comp = !isMilk ? getCompliment(item.name) : '';
+                if (isMilk) {
+                    html += `<article class="card milk-card milk-rank-${Math.min(i + 1, 3)}" style="--milk-accent:${border};animation-delay:${Math.min(i, 8) * 55}ms">
+                        <div class="milk-card-head">
+                            <span class="milk-rank">${i === 0 ? '👑' : `#${i + 1}`}</span>
+                            <div class="avatar-box"><img src="${item.ava}" alt=""></div>
+                            <div class="info"><div class="name">${item.name}</div><div class="milk-caption">УЧАСТНИК ДОЙКИ</div></div>
                         </div>
-                    </div>
-                    ${currentSection === 'sales' ? `<div class="compliment-box" style="border-left-color: ${border};"><span class="quote-mark" style="color: ${border};">”</span>${comp}</div>` : ''}
-                </div>`;
+                        <div class="milk-score"><strong>${value}</strong><span>доек</span></div>
+                        <div class="milk-progress"><i style="width:${Math.max(8, Number(item.val || 0) / Math.max(1, Number(items[0].val || 1)) * 100)}%"></i></div>
+                    </article>`;
+                } else {
+                    html += `<div class="card" style="border-top-color:${border};background:linear-gradient(145deg,rgba(0,230,118,.07),#171c19 68%);">
+                        <div class="card-top"><div class="avatar-box" style="border-color:${border};"><img src="${item.ava}" alt=""></div>
+                            <div class="info"><div class="name" style="color:${border};">${item.name}</div><div class="val">${value} ${unit}</div></div></div>
+                        <div class="compliment-box" style="border-left-color:${border};"><span class="quote-mark" style="color:${border};">”</span>${comp}</div>
+                    </div>`;
+                }
             }
             grid.innerHTML = html;
         }
@@ -494,7 +557,7 @@
                         </div>
                         <div class="task-kind">ТАСК</div>
                     </div>
-                    <div class="task-main-value"><strong>${amount}</strong><span>единиц получено</span></div>
+                    <div class="task-main-value"><strong>${amount}</strong><span>единиц потрачено</span></div>
                     <div class="task-card-bottom">
                         <span class="task-money-label">Заработано</span>
                         <strong class="task-money-value">${money} <small>💰</small></strong>
@@ -511,8 +574,8 @@
             document.getElementById('main-screen').dataset.theme = theme;
             const descriptions = {
                 sales: 'Динамика генераций по времени',
-                milk: 'Динамика собранного молока по времени',
-                tasks: 'Количество ресурсов из выполненных тасков'
+                milk: 'Динамика доек по времени',
+                tasks: 'Заработанные муни за выполнение тасков'
             };
             document.querySelector('#section-graph .section-heading p').textContent = descriptions[kind];
             drawChart(currentGraphPeriod);
@@ -548,13 +611,13 @@
                 return;
             }
             const palette = {
-                sales: { label: 'Генерации', color: '#00e676', fill: 'rgba(0,230,118,.76)', unit: 'ген.' },
-                milk: { label: 'Дойка', color: '#48a9ff', fill: 'rgba(72,169,255,.76)', unit: 'молока' },
-                tasks: { label: 'Таски', color: '#ff9b42', fill: 'rgba(255,155,66,.78)', unit: 'ресурсов' }
+                sales: { label: 'Генерации', color: '#00e676', fill: 'rgba(0,230,118,.80)', unit: 'ген.' },
+                milk: { label: 'Дойки', color: '#48a9ff', fill: 'rgba(72,169,255,.78)', unit: 'доек' },
+                tasks: { label: 'Заработано', color: '#ff9b42', fill: 'rgba(255,155,66,.80)', unit: 'муни' }
             }[currentGraphType];
             const fmt = value => Number(value || 0).toLocaleString('ru-RU');
 
-            list.innerHTML = labels.map((label, i) =>
+            list.innerHTML = `<div class="chart-data-heading"><span>Значения по дням</span><span>${palette.unit}</span></div>` + labels.map((label, i) =>
                 `<div class="chart-data-item"><span>${label}</span><strong>${fmt(values[i])}</strong></div>`
             ).join('');
 
@@ -571,16 +634,17 @@
                         borderWidth: 1,
                         borderRadius: 6,
                         borderSkipped: false,
-                        maxBarThickness: 24,
-                        categoryPercentage: .78,
-                        barPercentage: .84
+                        maxBarThickness: 30,
+                        categoryPercentage: .72,
+                        barPercentage: .82
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     layout: { padding: { top: 8, right: 5, left: 1, bottom: 0 } },
-                    animation: { duration: 650, easing: 'easeOutQuart' },
+                    animation: { duration: 720, easing: 'easeOutQuart' },
+                    resizeDelay: 120,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
@@ -599,7 +663,7 @@
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#9aa69e', maxRotation: 0, minRotation: 0, autoSkip: true, maxTicksLimit: 7, font: { size: 10 } },
+                            ticks: { color: '#9aa69e', maxRotation: 0, minRotation: 0, autoSkip: true, autoSkipPadding: 12, maxTicksLimit: 6, font: { size: 10, weight: '600' } },
                             border: { display: false }
                         },
                         y: {
@@ -635,7 +699,9 @@
                     dayNumber.textContent = d.day;
                     const dayValue = document.createElement('span');
                     dayValue.className = 'day-value';
-                    dayValue.textContent = Number(d.count || 0) > 0 ? Number(d.count).toLocaleString('ru-RU') : '';
+                    dayValue.textContent = Number(d.count || 0).toLocaleString('ru-RU');
+                    if (d.is_today) cell.classList.add('is-today');
+                    cell.title = `${d.day}: ${Number(d.count || 0).toLocaleString('ru-RU')} генераций`;
                     cell.append(dayNumber, dayValue);
                 }
                 grid.appendChild(cell);

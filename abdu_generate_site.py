@@ -48,67 +48,57 @@ def get_avatar(uid, name):
     return f"avatars/{uid}.webp"
 
 def get_graph_data(con, table, metric, period):
-    # Table and metric are selected only from the fixed map below.
+    """Return exact daily/hourly totals for one dashboard metric."""
     now = datetime.now()
     if period == "today":
         since = now.replace(hour=0, minute=0, second=0, microsecond=0)
         rows = con.execute(
-            f"SELECT strftime('%H', ts) AS bucket, SUM({metric}) FROM {table} WHERE ts >= ? GROUP BY bucket",
+            f"SELECT strftime('%H', ts) AS bucket, COALESCE(SUM({metric}), 0) FROM {table} WHERE ts >= ? GROUP BY bucket",
             (since.isoformat(),)
         ).fetchall()
-        grouped = {int(r[0]): int(r[1] or 0) for r in rows}
-        labels = [f"{i:02d}" for i in range(24)]
-        values = [grouped.get(i, 0) for i in range(24)]
+        totals = {int(row[0]): int(row[1] or 0) for row in rows}
+        labels = [f"{hour:02d}:00" for hour in range(24)]
+        values = [totals.get(hour, 0) for hour in range(24)]
     else:
         days = 7 if period == "week" else 30
         since = (now - timedelta(days=days - 1)).replace(hour=0, minute=0, second=0, microsecond=0)
         rows = con.execute(
-            f"SELECT DATE(ts) AS bucket, SUM({metric}) FROM {table} WHERE ts >= ? GROUP BY bucket",
+            f"SELECT DATE(ts) AS bucket, COALESCE(SUM({metric}), 0) FROM {table} WHERE ts >= ? GROUP BY bucket",
             (since.isoformat(),)
         ).fetchall()
-        grouped = {r[0]: int(r[1] or 0) for r in rows}
+        totals = {row[0]: int(row[1] or 0) for row in rows}
         labels = [(since + timedelta(days=i)).strftime("%d.%m") for i in range(days)]
-        values = [grouped.get((since + timedelta(days=i)).strftime("%Y-%m-%d"), 0) for i in range(days)]
+        values = [totals.get((since + timedelta(days=i)).strftime("%Y-%m-%d"), 0) for i in range(days)]
     return {"labels": labels, "values": values}
 
 def get_calendar_data(con, offset_months=0):
     now = datetime.now()
-    year = now.year
-    month = now.month + offset_months
-    while month <= 0: month += 12; year -= 1
-    while month > 12: month -= 12; year += 1
-    
+    year, month = now.year, now.month + offset_months
+    while month <= 0:
+        month += 12; year -= 1
+    while month > 12:
+        month -= 12; year += 1
     first_day = datetime(year, month, 1)
     _, days_in_month = calendar.monthrange(year, month)
-    
-    since = first_day.isoformat()
     next_month = datetime(year + 1, 1, 1) if month == 12 else datetime(year, month + 1, 1)
-    until = next_month.isoformat()
-    
-    rows = con.execute("SELECT DATE(ts), SUM(count) FROM sales WHERE ts >= ? AND ts < ? GROUP BY DATE(ts)", (since, until)).fetchall()
-    day_counts = {r[0]: r[1] for r in rows}
-    
+    rows = con.execute(
+        "SELECT DATE(ts), COALESCE(SUM(count), 0) FROM sales WHERE ts >= ? AND ts < ? GROUP BY DATE(ts)",
+        (first_day.isoformat(), next_month.isoformat())
+    ).fetchall()
+    day_counts = {row[0]: int(row[1] or 0) for row in rows}
     max_val = max(day_counts.values()) if day_counts else 0
-    start_weekday = first_day.weekday()
-    days = []
-    for i in range(start_weekday):
-        days.append({"day": None, "count": 0, "color": None})
-    for d in range(1, days_in_month + 1):
-        date_str = f"{year}-{month:02d}-{d:02d}"
-        cnt = day_counts.get(date_str, 0)
-        color = "gray"
-        if cnt > 0:
-            pct = cnt / max_val
-            if pct < 0.25: color = "red"
-            elif pct < 0.5: color = "orange"
-            elif pct < 0.75: color = "yellow"
-            else: color = "green"
-        days.append({"day": d, "count": cnt, "color": color})
+    days = [{"day": None, "count": 0, "color": None, "level": 0, "is_today": False} for _ in range(first_day.weekday())]
+    for day in range(1, days_in_month + 1):
+        date_str = f"{year}-{month:02d}-{day:02d}"
+        count = day_counts.get(date_str, 0)
+        ratio = count / max_val if max_val else 0
+        level = 0 if count == 0 else min(4, max(1, int(ratio * 4) + 1))
+        color = "gray" if level == 0 else ("red" if level == 1 else "orange" if level == 2 else "yellow" if level == 3 else "green")
+        days.append({"day": day, "count": count, "color": color, "level": level,
+                     "is_today": year == now.year and month == now.month and day == now.day})
     while len(days) < 42:
-        days.append({"day": None, "count": 0, "color": None})
-    
-    month_name = first_day.strftime("%B %Y").capitalize()
-    return {"title": month_name, "days": days}
+        days.append({"day": None, "count": 0, "color": None, "level": 0, "is_today": False})
+    return {"title": first_day.strftime("%B %Y").capitalize(), "days": days, "max": max_val}
 
 def get_data():
     con = sqlite3.connect(DB_PATH)
@@ -130,11 +120,11 @@ def get_data():
             "sales": [{"name": r[0] or r[1] or f"id{r[2]}", "val": int(r[3]), "uid": r[2], "ava": get_avatar(r[2], r[0] or r[1] or "")} for r in sales],
             "tasks": [{"name": r[0], "amount": int(r[1]), "money": int(r[2])} for r in tasks],
             "milk": [{"name": r[0] or r[1] or f"id{r[2]}", "val": int(r[3]), "uid": r[2], "ava": get_avatar(r[2], r[0] or r[1] or "")} for r in milk],
-            "graph": get_graph_data(con, "sales", "count", p_name) if p_name != "all" else get_graph_data(con, "sales", "count", "month"),
+            "graph": get_graph_data(con, "sales", "count", p_name),
             "graphs": {
-                "sales": get_graph_data(con, "sales", "count", p_name if p_name != "all" else "month"),
-                "milk": get_graph_data(con, "milk", "count", p_name if p_name != "all" else "month"),
-                "tasks": get_graph_data(con, "tasks", "amount", p_name if p_name != "all" else "month")
+                "sales": get_graph_data(con, "sales", "count", p_name),
+                "milk": get_graph_data(con, "milk", "count", p_name),
+                "tasks": get_graph_data(con, "tasks", "money", p_name)
             },
             "calendar": get_calendar_data(con, 0)
         }
