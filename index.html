@@ -72,15 +72,25 @@
         .card.top-1 { background: linear-gradient(145deg, rgba(255,215,0,.075), #171c19 65%); border-top-color: #d8b84d; }
         .card.top-2 { background: linear-gradient(145deg, rgba(192,192,192,.065), #171c19 65%); border-top-color: #89949b; }
         .card.top-3 { background: linear-gradient(145deg, rgba(205,127,50,.075), #171c19 65%); border-top-color: #a87549; }
-        .task-card { gap: 12px; min-height: 118px; justify-content: space-between; }
-        .task-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-        .task-emoji { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.055); font-size: 18px; }
-        .task-index { color: #69756d; font-size: 10px; font-weight: 800; }
-        .task-name { font-size: 16px; font-weight: 850; overflow-wrap: anywhere; }
+        .task-card {
+            position: relative; gap: 13px; min-height: 0; padding: 15px;
+            justify-content: space-between; overflow: hidden;
+            background: linear-gradient(145deg, #1b241f, #141916 78%);
+            animation: cardIn .42s cubic-bezier(.2,.75,.25,1) both;
+        }
+        .task-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: linear-gradient(180deg, var(--green), rgba(0,230,118,.08)); }
+        .task-head { display: flex; align-items: center; gap: 11px; min-width: 0; }
+        .task-emoji { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; background: rgba(0,230,118,.09); border: 1px solid rgba(0,230,118,.13); font-size: 25px; }
+        .task-title-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .task-name { color: var(--text); font-size: 13px; font-weight: 850; letter-spacing: -.15px; }
+        .task-index { color: #758279; font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
         .task-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .task-metric { background: rgba(0,0,0,.17); border-radius: 10px; padding: 8px 9px; min-width: 0; }
-        .task-metric span { display: block; color: #7f8b83; font-size: 9px; font-weight: 700; margin-bottom: 4px; }
-        .task-metric strong { display: block; color: var(--text); font-size: 12px; font-weight: 850; overflow-wrap: anywhere; }
+        .task-metric { background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.035); border-radius: 11px; padding: 10px; min-width: 0; }
+        .task-metric span { display: block; color: #87948b; font-size: 9px; font-weight: 750; margin-bottom: 6px; }
+        .task-metric strong { display: block; color: var(--text); font-size: clamp(12px, 2.8vw, 15px); font-weight: 900; letter-spacing: -.25px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+        .task-metric.money strong { color: var(--green); }
+        .task-card:nth-child(2n) { animation-delay: .045s; }
+        .task-card:nth-child(3n) { animation-delay: .09s; }
         .empty-state { grid-column: 1 / -1; padding: 28px 16px; text-align: center; border: 1px dashed rgba(255,255,255,.1); border-radius: 15px; color: var(--muted); font-size: 12px; background: rgba(255,255,255,.015); }
 
         .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 0 12px 8px; color: var(--muted); text-align: center; font-size: 10px; font-weight: 800; letter-spacing: .4px; }
@@ -99,7 +109,20 @@
         .calendar-cell.c-green .day-number, .calendar-cell.c-green .day-value { color: #101510; }
         .calendar-cell.c-gray .day-value { color: #aab4ad; }
         #calendar-title { text-align: center; font-size: 14px; font-weight: 800; color: #dbe5de; margin-bottom: 12px !important; }
-        .chart-container { width: 100%; height: 280px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+        .chart-container { width: 100%; height: 300px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 8px 22px rgba(0,0,0,.12); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; scrollbar-color: rgba(0,230,118,.3) transparent; }
+        .chart-container canvas { display: block; }
+        .calendar-cell:not(.empty) { animation: cellIn .32s ease both; }
+        .calendar-cell:nth-child(7n + 1) { animation-delay: .02s; }
+        .calendar-cell:nth-child(7n + 2) { animation-delay: .04s; }
+        .calendar-cell:nth-child(7n + 3) { animation-delay: .06s; }
+        .card { animation: cardIn .38s cubic-bezier(.2,.75,.25,1) both; }
+        .grid .card:nth-child(2n) { animation-delay: .045s; }
+        .grid .card:nth-child(3n) { animation-delay: .09s; }
+        @keyframes cardIn { from { opacity: 0; transform: translateY(9px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes cellIn { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: scale(1); } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
         .footer { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); width: 100%; font-size: 11px; font-weight: 650; color: #7c8980; text-align: center; }
         #logout-btn { display: block; margin: 14px auto 0; padding: 9px 17px; background: #1a211d; color: #9aa69e; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; font-size: 11px; font-weight: 750; }
         #logout-btn:hover { color: var(--text); background: #222b25; }
@@ -116,7 +139,10 @@
             .name { font-size: 12px; }
             .val { font-size: 11px; }
             .period { font-size: 10px; padding: 9px 2px; }
-            .chart-container { height: 245px; padding: 10px; }
+            .chart-container { height: 275px; padding: 10px; }
+            .task-card { padding: 12px; gap: 10px; }
+            .task-emoji { width: 42px; height: 42px; font-size: 22px; }
+            .task-metric { padding: 9px 8px; }
         }
         @media (max-width: 360px) {
             .tab { font-size: 9px; }
@@ -146,7 +172,7 @@
         <div class="tabs">
             <div class="tab active" onclick="showSection('sales', this)">💎 Генки</div>
             <div class="tab" onclick="showSection('tasks', this)">📦 Таски</div>
-            <div class="tab" onclick="showSection('milk', this)">🥛 Молоко</div>
+            <div class="tab" onclick="showSection('milk', this)">🥛 Дойка</div>
             <div class="tab" onclick="showSection('graph', this)">📈 График</div>
             <div class="tab" onclick="showSection('calendar', this)">📅 Календарь</div>
         </div>
@@ -174,7 +200,7 @@
         </div>
 
         <div id="section-milk" class="section" style="display: none;">
-            <div class="section-heading"><div><h2>🥛 Молоко</h2><p>Рейтинг участников по собранному молоку</p></div><div class="section-icon">🥛</div></div>
+            <div class="section-heading"><div><h2>🥛 Дойка</h2><p>Рейтинг участников по собранному молоку</p></div><div class="section-icon">🥛</div></div>
             <div class="periods" id="periods-milk">
                 <div class="period active" onclick="setPeriod('today', this)">Сутки</div>
                 <div class="period" onclick="setPeriod('week', this)">Неделя</div>
@@ -326,18 +352,16 @@
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 const border = ["#ffd700", "#c0c0c0", "#cd7f32", "#333", "#333"][i];
-                const comp = getCompliment(item.name);
+                const comp = currentSection === 'sales' ? getCompliment(item.name) : '';
                 html += `<div class="card top-${i+1}">
                     <div class="card-top">
                         <div class="avatar-box" style="border-color: ${border};"><img src="${item.ava}" alt=""></div>
                         <div class="info">
                             <div class="name" style="color: ${border};">${item.name}</div>
-                            <div class="val">${item.val.toLocaleString('ru-RU')} ${unit}</div>
+                            <div class="val">${Number(item.val || 0).toLocaleString('ru-RU')} ${unit}</div>
                         </div>
                     </div>
-                    <div class="compliment-box" style="border-left-color: ${border};">
-                        <span class="quote-mark" style="color: ${border};">”</span>${comp}
-                    </div>
+                    ${currentSection === 'sales' ? `<div class="compliment-box" style="border-left-color: ${border};"><span class="quote-mark" style="color: ${border};">”</span>${comp}</div>` : ''}
                 </div>`;
             }
             grid.innerHTML = html;
@@ -352,10 +376,16 @@
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 html += `<div class="card task-card">
-                    <div class="task-head"><div class="task-emoji">${item.name}</div><div class="task-index">РЕСУРС ${String(i + 1).padStart(2, '0')}</div></div>
+                    <div class="task-head">
+                        <div class="task-emoji">${item.name}</div>
+                        <div class="task-title-wrap">
+                            <div class="task-index">ТАСК ${String(i + 1).padStart(2, '0')}</div>
+                            <div class="task-name">Ресурс</div>
+                        </div>
+                    </div>
                     <div class="task-metrics">
-                        <div class="task-metric"><span>Количество</span><strong>${item.amount.toLocaleString('ru-RU')} шт.</strong></div>
-                        <div class="task-metric"><span>Заработок</span><strong>${item.money.toLocaleString('ru-RU')} 💰</strong></div>
+                        <div class="task-metric"><span>Количество</span><strong>${Number(item.amount || 0).toLocaleString('ru-RU')} шт.</strong></div>
+                        <div class="task-metric money"><span>Заработок</span><strong>${Number(item.money || 0).toLocaleString('ru-RU')} 💰</strong></div>
                     </div>
                 </div>`;
             }
@@ -370,32 +400,71 @@
             }
             if (!data[period] || !data[period].graph) return;
             
-            const ctx = document.getElementById('myChart').getContext('2d');
+            const graph = data[period].graph;
+            const labels = graph.labels || [];
+            const values = graph.values || [];
+            const container = document.querySelector('.chart-container');
+            const canvas = document.getElementById('myChart');
+            const chartWidth = Math.max(container.clientWidth - 34, labels.length * 36);
+            canvas.style.width = chartWidth + 'px';
+            canvas.style.height = '248px';
             if (chart) chart.destroy();
-            
-            chart = new Chart(ctx, {
+
+            const exactValueLabels = {
+                id: 'exactValueLabels',
+                afterDatasetsDraw(chartInstance) {
+                    const {ctx} = chartInstance;
+                    const meta = chartInstance.getDatasetMeta(0);
+                    ctx.save();
+                    ctx.font = '700 10px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillStyle = '#dce9e0';
+                    meta.data.forEach((bar, index) => {
+                        const value = Number(values[index] || 0);
+                        const text = value.toLocaleString('ru-RU');
+                        ctx.fillText(text, bar.x, Math.max(bar.y - 5, chartInstance.chartArea.top + 12));
+                    });
+                    ctx.restore();
+                }
+            };
+
+            chart = new Chart(canvas.getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: data[period].graph.labels,
+                    labels,
                     datasets: [{
                         label: 'Генерации',
-                        data: data[period].graph.values,
-                        backgroundColor: 'rgba(0, 230, 118, 0.78)',
+                        data: values,
+                        backgroundColor: 'rgba(0, 230, 118, 0.76)',
                         hoverBackgroundColor: '#00e676',
                         borderColor: '#00e676',
                         borderWidth: 1,
-                        borderRadius: 6,
+                        borderRadius: 7,
                         borderSkipped: false,
-                        maxBarThickness: 28
+                        maxBarThickness: 27,
+                        categoryPercentage: .78,
+                        barPercentage: .86
                     }]
                 },
+                plugins: [exactValueLabels],
                 options: {
-                    responsive: true,
+                    responsive: false,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    layout: { padding: { top: 22, right: 8, left: 4, bottom: 0 } },
+                    animation: { duration: 720, easing: 'easeOutQuart' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            displayColors: false,
+                            callbacks: {
+                                label: context => `${Number(context.raw || 0).toLocaleString('ru-RU')} генераций`
+                            }
+                        }
+                    },
                     scales: {
-                        x: { grid: { color: '#222' }, ticks: { color: '#888' } },
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#888', precision: 0 } }
+                        x: { grid: { display: false }, ticks: { color: '#9aa69e', maxRotation: 0, autoSkip: false, font: { size: 10 } } },
+                        y: { beginAtZero: true, grace: '12%', grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#89958d', precision: 0, callback: value => Number(value).toLocaleString('ru-RU') } }
                     }
                 }
             });
