@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABDU Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -1371,6 +1374,190 @@
             #grid-sales .gen-card:active, #grid-milk .milk-card:active, #grid-tasks .task-card:active {
                 transform: scale(.985);
             }
+        }
+
+    
+        /* Vivid acid refresh: sharp contrast, matte surfaces, confident typography. */
+        :root {
+            --bg: #0b0d0b;
+            --surface: #171b16;
+            --surface-2: #20261d;
+            --surface-3: #2b3422;
+            --line: #3a4630;
+            --text: #f7ffe9;
+            --muted: #bdc9aa;
+            --green: #c6ff00;
+            --green-soft: rgba(198,255,0,.16);
+        }
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            background: #0b0d0b !important;
+            color: #f7ffe9 !important;
+            letter-spacing: -.18px;
+        }
+        button, input, select { font-family: 'Manrope', sans-serif !important; }
+        .title, .section-heading h2, .login-box h2 {
+            font-family: 'Space Grotesk', 'Manrope', sans-serif !important;
+            letter-spacing: -.7px !important;
+        }
+        #main-screen {
+            --accent: #c6ff00;
+            --accent-soft: rgba(198,255,0,.16);
+            --accent-line: rgba(198,255,0,.52);
+            --accent-glow: rgba(198,255,0,.2);
+            --accent-ink: #111700;
+        }
+        #main-screen[data-theme="milk"],
+        #main-screen[data-theme="graph-milk"] {
+            --accent: #00e5ff;
+            --accent-soft: rgba(0,229,255,.15);
+            --accent-line: rgba(0,229,255,.48);
+            --accent-glow: rgba(0,229,255,.2);
+            --accent-ink: #00171b;
+        }
+        #main-screen[data-theme="tasks"],
+        #main-screen[data-theme="graph-tasks"] {
+            --accent: #ff6d00;
+            --accent-soft: rgba(255,109,0,.16);
+            --accent-line: rgba(255,109,0,.5);
+            --accent-glow: rgba(255,109,0,.2);
+            --accent-ink: #1d0b00;
+        }
+        .subtitle, .login-kicker { color: #c6ff00 !important; }
+        .section-heading h2, .title { color: #f7ffe9 !important; }
+        .section-heading p, .subtitle { opacity: 1 !important; }
+        .tabs, .periods, .chart-container, .calendar-grid,
+        .log-kpi, .log-table-wrap {
+            background: #171b16 !important;
+            border: 1px solid #3a4630 !important;
+            box-shadow: none !important;
+        }
+        .tab { color: #bdc9aa !important; font-weight: 800 !important; }
+        .tab.active, .period.active, #periods-graph .period.active,
+        .graph-type.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 1px var(--accent), 0 0 18px var(--accent-glow) !important;
+        }
+        .period { color: #bdc9aa !important; font-weight: 800 !important; }
+        .section-icon {
+            color: var(--accent) !important;
+            background: var(--accent-soft) !important;
+            border: 1px solid var(--accent-line) !important;
+        }
+        #grid-sales .gen-card, #grid-milk .milk-card,
+        #grid-tasks .task-card {
+            background: #191e17 !important;
+            border: 1px solid #3a4630 !important;
+            box-shadow: none !important;
+        }
+        #grid-sales .gen-card::before,
+        #grid-milk .milk-card::before { width: 5px !important; }
+        #grid-sales .gen-card.top-rank-1::before,
+        #grid-milk .milk-card.top-rank-1::before { background: #ffe600 !important; }
+        #grid-sales .gen-card.top-rank-2::before,
+        #grid-milk .milk-card.top-rank-2::before { background: #d9e5ef !important; }
+        #grid-sales .gen-card.top-rank-3::before,
+        #grid-milk .milk-card.top-rank-3::before { background: #ff8a3d !important; }
+        #grid-sales .gen-card.top-rank-1 { border-color: rgba(255,230,0,.58) !important; }
+        #grid-milk .milk-card.top-rank-1 { border-color: rgba(255,230,0,.58) !important; }
+        #grid-sales .gen-card.top-rank-2, #grid-milk .milk-card.top-rank-2 { border-color: rgba(217,229,239,.4) !important; }
+        #grid-sales .gen-card.top-rank-3, #grid-milk .milk-card.top-rank-3 { border-color: rgba(255,138,61,.45) !important; }
+        #grid-sales .gen-user .name, #grid-milk .milk-card-head .name,
+        #grid-tasks .task-name { color: #f7ffe9 !important; font-weight: 900 !important; }
+        #grid-sales .gen-user small { color: #c6ff00 !important; }
+        #grid-sales .gen-value strong { color: #c6ff00 !important; }
+        #grid-milk .milk-score strong { color: #00e5ff !important; }
+        #grid-sales .gen-value span, #grid-milk .milk-score span,
+        #grid-sales .gen-user small, #grid-milk .milk-caption { font-weight: 800 !important; }
+        #grid-sales .gen-quote {
+            background: #252d1d !important;
+            border: 1px solid #46552b !important;
+            border-left: 3px solid #c6ff00 !important;
+            border-radius: 8px !important;
+        }
+        #grid-sales .gen-quote .quote-text { color: #efffd0 !important; }
+        #grid-sales .gen-quote button {
+            padding: 3px 6px !important;
+            min-height: 0 !important;
+            font-size: 8px !important;
+            line-height: 1.25 !important;
+            font-weight: 900 !important;
+            color: #d8ff59 !important;
+            background: #303c19 !important;
+            border: 1px solid #657d27 !important;
+            border-radius: 6px !important;
+            letter-spacing: -.1px;
+        }
+        #grid-sales .gen-quote button:active { transform: scale(.96); }
+        #grid-milk .milk-progress { background: #263b3e !important; }
+        #grid-milk .milk-progress i { background: #00e5ff !important; }
+        #grid-tasks .task-card::before { background: #ff6d00 !important; }
+        #grid-tasks .task-emoji {
+            color: #ff9a4d !important;
+            background: #3a210f !important;
+            border: 1px solid #874516 !important;
+        }
+        #grid-tasks .task-kind {
+            color: #ffad70 !important;
+            background: #3a210f !important;
+            border-color: #874516 !important;
+        }
+        #grid-tasks .task-money-value,
+        #grid-tasks .task-metric.money strong { color: #ff9a4d !important; }
+        #grid-tasks .task-index, #grid-tasks .task-money-label,
+        #grid-tasks .task-main-value span { color: #c2cdb1 !important; }
+        .calendar-weekdays { color: #d1ddb9 !important; }
+        .calendar-grid { gap: 6px !important; }
+        .calendar-cell { border: 1px solid rgba(255,255,255,.12) !important; }
+        .calendar-cell.c-gray { background: #30382b !important; }
+        .calendar-cell.c-red { background: #ff3158 !important; }
+        .calendar-cell.c-orange { background: #ff6d00 !important; }
+        .calendar-cell.c-yellow { background: #ffe600 !important; }
+        .calendar-cell.c-green { background: #c6ff00 !important; }
+        .calendar-cell.c-red .day-number, .calendar-cell.c-red .day-value,
+        .calendar-cell.c-orange .day-number, .calendar-cell.c-orange .day-value { color: #180800 !important; }
+        .calendar-cell.c-yellow .day-number, .calendar-cell.c-yellow .day-value,
+        .calendar-cell.c-green .day-number, .calendar-cell.c-green .day-value { color: #111700 !important; }
+        .calendar-cell.c-gray .day-number { color: #e1edcf !important; }
+        .calendar-cell.c-gray .day-value { color: #f7ffe9 !important; }
+        .calendar-cell.is-today {
+            outline: 2px solid #fff !important;
+            box-shadow: 0 0 0 4px rgba(198,255,0,.3) !important;
+        }
+        #calendar-title { color: #f7ffe9 !important; font-family: 'Space Grotesk', sans-serif !important; }
+        .graph-type {
+            color: #d0dbbf !important;
+            background: #171b16 !important;
+            border: 1px solid #3a4630 !important;
+            font-weight: 850 !important;
+        }
+        .chart-container { background: #171b16 !important; border-color: #3a4630 !important; }
+        .chart-data-heading { color: #f7ffe9 !important; }
+        .chart-data-item { background: #20261d !important; border-color: #3a4630 !important; }
+        .chart-data-item span { color: #c2cdb1 !important; }
+        .chart-data-item strong { color: var(--accent) !important; }
+        .login-box, #login-screen.login-box {
+            background: #171b16 !important;
+            border: 1px solid #3a4630 !important;
+            box-shadow: none !important;
+        }
+        .login-box h2 { color: #c6ff00 !important; }
+        .login-box input {
+            color: #f7ffe9 !important;
+            background: #0e120d !important;
+            border-color: #465238 !important;
+        }
+        .login-box input:focus { border-color: #c6ff00 !important; }
+        .login-mark, .login-primary, .login-secondary {
+            background: #c6ff00 !important;
+            color: #111700 !important;
+        }
+        .footer { color: #bdc9aa !important; }
+        #logout-btn { color: #d3dfc1 !important; border-color: #465238 !important; }
+        @media (max-width: 600px) {
+            #grid-sales .gen-quote button { padding: 3px 5px !important; font-size: 7px !important; }
         }
 
     </style>
