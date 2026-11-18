@@ -2135,6 +2135,93 @@
         }
     </style>
 
+
+<style id="abdu-final-mobile-fix">
+/* Final mobile layout: natural rectangular cards, no inherited square sizing. */
+#grid-sales,#grid-milk,#grid-tasks { grid-auto-rows:min-content !important; align-items:start !important; }
+#grid-sales .compact-rank-card,#grid-milk .compact-rank-card,
+#grid-tasks .screenshot-task-card { aspect-ratio:auto !important; height:auto !important; align-self:start !important; }
+#grid-sales .compact-rank-card,#grid-milk .compact-rank-card { min-height:62px !important; }
+#grid-tasks .screenshot-task-card { min-height:104px !important; }
+
+/* Calendar closely follows the supplied bot screenshot. */
+#section-calendar { background:#101110 !important; padding:17px 14px 20px !important; border-radius:16px !important; }
+#section-calendar .calendar-heading { display:flex !important; align-items:flex-end !important; justify-content:space-between !important; gap:8px !important; padding:0 2px 4px !important; margin:0 0 17px !important; background:transparent !important; }
+#section-calendar .calendar-heading h2 { color:#f4f5f4 !important; font-size:15px !important; line-height:1.1 !important; font-weight:850 !important; letter-spacing:.4px !important; }
+#section-calendar .calendar-heading p { display:block !important; margin:7px 0 0 !important; color:#00df78 !important; font-size:clamp(19px,5.2vw,25px) !important; line-height:1.12 !important; font-weight:950 !important; letter-spacing:-.5px !important; }
+#section-calendar .calendar-summary { display:block !important; flex:0 0 auto !important; margin:0 !important; min-height:0 !important; padding-bottom:2px !important; }
+#section-calendar #calendar-total { color:#d7d9d7 !important; font-size:clamp(16px,4.4vw,20px) !important; font-weight:900 !important; white-space:nowrap !important; }
+#section-calendar .calendar-month-nav { display:grid !important; grid-template-columns:42px minmax(0,1fr) 42px !important; align-items:center !important; gap:8px !important; min-height:60px !important; margin:0 0 15px !important; padding:8px 10px !important; background:#1b1c1b !important; border:0 !important; border-radius:13px !important; }
+#section-calendar .calendar-month-nav strong { color:#f4f5f4 !important; font-size:clamp(15px,4.3vw,19px) !important; font-weight:900 !important; text-align:center !important; white-space:normal !important; }
+#section-calendar .calendar-month-nav button { min-height:42px !important; color:#8e918e !important; font-size:22px !important; }
+#section-calendar .calendar-weekdays { display:grid !important; grid-template-columns:repeat(7,minmax(0,1fr)) !important; gap:5px !important; padding:0 0 10px !important; color:#929792 !important; font-size:clamp(11px,3.2vw,14px) !important; font-weight:900 !important; text-align:center !important; }
+#section-calendar .calendar-grid { display:grid !important; grid-template-columns:repeat(7,minmax(0,1fr)) !important; gap:5px !important; padding:0 !important; background:transparent !important; border:0 !important; }
+#section-calendar .calendar-cell { aspect-ratio:1 / 1 !important; min-width:0 !important; min-height:0 !important; height:auto !important; border:0 !important; border-radius:10px !important; overflow:hidden !important; }
+#section-calendar .calendar-cell .day-number { top:5px !important; left:6px !important; font-size:clamp(10px,2.9vw,13px) !important; line-height:1 !important; font-weight:900 !important; }
+#section-calendar .calendar-cell .day-value { display:flex !important; align-items:center !important; justify-content:center !important; inset:0 !important; padding:11px 1px 0 !important; font-size:clamp(13px,4.5vw,22px) !important; line-height:1 !important; font-weight:950 !important; letter-spacing:-.5px !important; font-variant-numeric:tabular-nums !important; }
+#section-calendar .calendar-cell.c-gray { background:#292b2a !important; }
+#section-calendar .calendar-cell.c-red { background:#ef5050 !important; }
+#section-calendar .calendar-cell.c-orange { background:#ff9200 !important; }
+#section-calendar .calendar-cell.c-yellow { background:#ffdf00 !important; }
+#section-calendar .calendar-cell.c-green { background:#00d879 !important; }
+#section-calendar .calendar-cell.c-red .day-number,#section-calendar .calendar-cell.c-red .day-value,
+#section-calendar .calendar-cell.c-orange .day-number,#section-calendar .calendar-cell.c-orange .day-value { color:#fff !important; }
+#section-calendar .calendar-cell.c-yellow .day-number,#section-calendar .calendar-cell.c-yellow .day-value,
+#section-calendar .calendar-cell.c-green .day-number,#section-calendar .calendar-cell.c-green .day-value { color:#101510 !important; }
+#section-calendar .calendar-cell.c-gray .day-number { color:#aeb3af !important; }
+#section-calendar .calendar-cell.c-gray .day-value { color:#f3f4f3 !important; }
+
+/* Chart labels are sparse and legible; the plot never spills over its axes. */
+.chart-container { height:310px !important; min-height:310px !important; padding:14px 9px 9px !important; overflow:hidden !important; }
+.chart-container canvas { display:block !important; width:100% !important; max-width:100% !important; }
+@media (max-width:520px) {
+  #main-screen { width:100% !important; max-width:100% !important; }
+  body { padding-left:8px !important; padding-right:8px !important; }
+  #grid-sales,#grid-milk,#grid-tasks { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  #grid-sales .compact-rank-card,#grid-milk .compact-rank-card { min-height:60px !important; padding:9px 7px !important; }
+  #grid-tasks .screenshot-task-card { min-height:96px !important; padding:11px 8px !important; }
+  .chart-container { height:285px !important; min-height:285px !important; padding:12px 5px 7px !important; }
+  .graph-date-nav strong { font-size:13px !important; }
+  .graph-date-nav { grid-template-columns:38px minmax(0,1fr) 38px !important; }
+  #section-calendar { padding:15px 10px 17px !important; }
+  #section-calendar .calendar-weekdays,#section-calendar .calendar-grid { gap:4px !important; }
+  #section-calendar .calendar-cell { border-radius:8px !important; }
+  #section-calendar .calendar-cell .day-number { top:4px !important; left:4px !important; }
+  #section-calendar .calendar-cell .day-value { padding-top:9px !important; font-size:clamp(12px,4.1vw,18px) !important; }
+}
+@media (max-width:370px) {
+  #grid-sales .rank-name,#grid-milk .rank-name { font-size:10px !important; }
+  #grid-sales .rank-value,#grid-milk .rank-value { font-size:11px !important; }
+  #section-calendar .calendar-weekdays,#section-calendar .calendar-grid { gap:3px !important; }
+  #section-calendar .calendar-cell .day-value { font-size:11px !important; }
+  .chart-container { height:265px !important; min-height:265px !important; }
+}
+
+/* Login rebuilt as a clean, matte access panel instead of the previous glass/gradient card. */
+body:has(#login-screen[style*="flex"], #login-screen:not([style*="display: none"])) { background:#090a09 !important; }
+#login-screen.login-box {
+  position:relative !important; width:min(100%,390px) !important; max-width:390px !important;
+  margin:9vh auto 0 !important; padding:30px 25px 22px !important; gap:13px !important;
+  display:flex; flex-direction:column !important; background:#141615 !important;
+  border:1px solid #303632 !important; border-radius:19px !important; box-shadow:none !important;
+  overflow:hidden !important;
+}
+#login-screen.login-box::before { content:"" !important; position:absolute !important; left:0 !important; top:0 !important; right:0 !important; width:auto !important; height:4px !important; border-radius:0 !important; background:#38d88b !important; filter:none !important; }
+#login-screen .login-mark { width:58px !important; height:58px !important; margin:0 auto 8px !important; border-radius:16px !important; background:#20382b !important; color:#55df98 !important; border:1px solid #376448 !important; box-shadow:none !important; }
+#login-screen .login-mark i { display:none !important; }
+#login-screen .login-kicker { color:#7e9185 !important; font-size:10px !important; letter-spacing:2px !important; font-weight:850 !important; }
+#login-screen .login-box h2,#login-screen h2 { color:#f3f5f3 !important; font-size:27px !important; font-weight:950 !important; letter-spacing:-.8px !important; }
+#login-screen .login-heading p { color:#929b94 !important; font-size:13px !important; }
+#login-screen .login-label { color:#c2cbc4 !important; font-size:12px !important; font-weight:800 !important; }
+#login-screen input { min-height:52px !important; border-radius:11px !important; background:#0d100e !important; border:1px solid #38423b !important; color:#f4f5f4 !important; font-size:16px !important; box-shadow:none !important; }
+#login-screen input:focus { border-color:#38d88b !important; box-shadow:0 0 0 2px rgba(56,216,139,.12) !important; }
+#login-screen .login-primary,#login-screen .login-secondary { min-height:52px !important; border-radius:11px !important; background:#38d88b !important; color:#07130c !important; box-shadow:none !important; font-size:15px !important; font-weight:900 !important; }
+#login-screen .login-primary b { right:18px !important; }
+#login-screen #login-status { color:#9ba69e !important; font-size:12px !important; }
+#login-screen .login-foot { border-top:1px solid #303632 !important; color:#89958d !important; font-size:11px !important; }
+@media (max-width:520px) { #login-screen.login-box { margin:7vh auto 0 !important; padding:27px 20px 20px !important; } }
+</style>
+
 </head>
 <body>
     <div id="login-screen" class="login-box">
@@ -2228,8 +2315,7 @@
         </div>
 
         <div id="section-calendar" class="section" style="display: none;">
-            <div class="section-heading"><div><h2>📅 Календарь</h2><p>Количество генераций по дням</p></div><div class="section-icon">📅</div></div>
-            <div class="calendar-summary"><strong id="calendar-total">0 ген.</strong></div>
+            <div class="section-heading calendar-heading"><div><h2>КАЛЕНДАРЬ</h2><p id="calendar-heading-title">Месяц</p></div><div class="calendar-summary"><strong id="calendar-total">0 ген.</strong></div></div>
             <div class="calendar-month-nav">
                 <button type="button" onclick="shiftCalendarMonth(-1)" aria-label="Предыдущий месяц">◀</button>
                 <strong id="calendar-title">Месяц</strong>
@@ -2586,18 +2672,27 @@
                 id: 'abduValueLabels',
                 afterDatasetsDraw(chartInstance) {
                     const {ctx} = chartInstance;
+                    const meta = chartInstance.getDatasetMeta(0);
+                    const bars = meta.data || [];
+                    // Dense daily/hourly series cannot fit one number per bar on a phone.
+                    // Only label bars that have enough real pixel width and vertical room.
+                    const isPhone = chartInstance.width < 600;
+                    const maxLabels = isPhone ? 7 : 18;
+                    const step = Math.max(1, Math.ceil(bars.length / maxLabels));
                     ctx.save();
                     ctx.fillStyle = '#f4f5f4';
-                    ctx.font = '800 11px Manrope, Arial, sans-serif';
+                    ctx.font = `${isPhone ? 800 : 850} ${isPhone ? 9 : 10}px Manrope, Arial, sans-serif`;
                     ctx.textAlign = 'center';
-                    ctx.textBaseline = 'bottom';
-                    chartInstance.data.datasets.forEach((dataset, datasetIndex) => {
-                        const meta = chartInstance.getDatasetMeta(datasetIndex);
-                        meta.data.forEach((bar, index) => {
-                            const value = Number(dataset.data[index] || 0);
-                            const label = value.toLocaleString('ru-RU');
-                            ctx.fillText(label, bar.x, bar.y - 7);
-                        });
+                    ctx.textBaseline = 'middle';
+                    bars.forEach((bar, index) => {
+                        if (bars.length > maxLabels && index % step !== 0) return;
+                        const width = Math.abs(bar.width || 0);
+                        if (isPhone && width < 23) return;
+                        const value = Number(chartInstance.data.datasets[0].data[index] || 0);
+                        if (!value) return;
+                        const label = value >= 1000000 ? `${(value/1000000).toFixed(1)}м` : value >= 10000 ? `${(value/1000).toFixed(0)}к` : value >= 1000 ? `${(value/1000).toFixed(1)}к` : String(value);
+                        const y = Math.max(chartInstance.chartArea.top + 10, bar.y - 9);
+                        ctx.fillText(label, bar.x, y, Math.max(22, width + 5));
                     });
                     ctx.restore();
                 }
@@ -2624,7 +2719,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout: { padding: { top: 8, right: 5, left: 1, bottom: 0 } },
+                    layout: { padding: { top: 18, right: 8, left: 4, bottom: 2 } },
                     animation: { duration: 720, easing: 'easeOutQuart' },
                     resizeDelay: 120,
                     interaction: { mode: 'index', intersect: false },
@@ -2645,14 +2740,14 @@
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#9aa69e', maxRotation: 0, minRotation: 0, autoSkip: true, autoSkipPadding: 12, maxTicksLimit: 6, font: { size: 11, weight: '800' } },
+                            ticks: { color: '#9aa69e', maxRotation: 0, minRotation: 0, autoSkip: true, autoSkipPadding: 12, maxTicksLimit: 5, autoSkipPadding: 18, font: { size: 9, weight: '800' } },
                             border: { display: false }
                         },
                         y: {
                             beginAtZero: true,
                             grace: '8%',
                             grid: { color: 'rgba(255,255,255,.07)' },
-                            ticks: { color: '#89958d', precision: 0, maxTicksLimit: 5, callback: value => fmt(value), font: { size: 11, weight: '700' } },
+                            ticks: { color: '#89958d', precision: 0, maxTicksLimit: 5, callback: value => { const n = Number(value); return n >= 1000000 ? (n/1000000).toFixed(1)+'м' : n >= 10000 ? Math.round(n/1000)+'к' : n >= 1000 ? (n/1000).toFixed(1)+'к' : fmt(n); }, font: { size: 9, weight: '700' } },
                             border: { display: false }
                         }
                     }
@@ -2688,6 +2783,8 @@
             const grid = document.getElementById('calendar-grid');
             const total = document.getElementById('calendar-total');
             if (title) title.textContent = cal?.title || 'Нет данных';
+            const headingTitle = document.getElementById('calendar-heading-title');
+            if (headingTitle) headingTitle.textContent = cal?.title || 'Нет данных';
             if (total) total.textContent = `${Number(cal?.total || cal?.days?.reduce((s, day) => s + Number(day.count || 0), 0) || 0).toLocaleString('ru-RU')} ген.`;
             if (!cal) {
                 grid.innerHTML = '<div class="empty-state">История календаря за этот месяц пока не загружена</div>';
