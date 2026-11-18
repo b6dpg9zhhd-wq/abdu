@@ -1560,6 +1560,242 @@
             #grid-sales .gen-quote button { padding: 3px 5px !important; font-size: 7px !important; }
         }
 
+    
+        /* Refined palette and geometry based on the supplied reference */
+        :root {
+            --bg: #0d0e0d;
+            --surface: #191a19;
+            --surface-2: #202120;
+            --surface-3: #292b29;
+            --line: #343734;
+            --text: #f2f3f2;
+            --muted: #a0a5a1;
+            --green: #38d88b;
+            --green-soft: rgba(56,216,139,.10);
+        }
+        body {
+            background: #0d0e0d !important;
+            color: #f2f3f2 !important;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif !important;
+            letter-spacing: 0 !important;
+        }
+        button, input, select {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif !important;
+        }
+        .title, .section-heading h2, .login-box h2 {
+            font-family: inherit !important;
+            letter-spacing: -.35px !important;
+        }
+        #main-screen {
+            --accent: #38d88b;
+            --accent-soft: rgba(56,216,139,.10);
+            --accent-line: rgba(56,216,139,.28);
+            --accent-glow: transparent;
+            --accent-ink: #071b11;
+        }
+        #main-screen[data-theme="milk"],
+        #main-screen[data-theme="graph-milk"] {
+            --accent: #58b7ff;
+            --accent-soft: rgba(88,183,255,.10);
+            --accent-line: rgba(88,183,255,.28);
+            --accent-glow: transparent;
+            --accent-ink: #071522;
+        }
+        #main-screen[data-theme="tasks"],
+        #main-screen[data-theme="graph-tasks"] {
+            --accent: #f0a04b;
+            --accent-soft: rgba(240,160,75,.10);
+            --accent-line: rgba(240,160,75,.28);
+            --accent-glow: transparent;
+            --accent-ink: #211307;
+        }
+        .subtitle, .login-kicker { color: #38d88b !important; }
+        .tabs, .periods, .chart-container, .calendar-grid,
+        .log-kpi, .log-table-wrap {
+            background: #191a19 !important;
+            border-color: #343734 !important;
+            box-shadow: none !important;
+        }
+        .tab, .period { color: #a0a5a1 !important; }
+        .tab.active, .period.active, #periods-graph .period.active,
+        .graph-type.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+            box-shadow: none !important;
+        }
+        .section-icon {
+            color: var(--accent) !important;
+            background: var(--accent-soft) !important;
+            border-color: var(--accent-line) !important;
+        }
+
+        /* Opaque, clearly defined leaderboard cards */
+        #grid-sales .gen-card, #grid-milk .milk-card {
+            background: #1b1c1b !important;
+            border: 1px solid #303330 !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        #grid-sales .gen-card.top-rank-1,
+        #grid-milk .milk-card.top-rank-1 { background: #292519 !important; }
+        #grid-sales .gen-card.top-rank-2,
+        #grid-milk .milk-card.top-rank-2 { background: #222425 !important; }
+        #grid-sales .gen-card.top-rank-3,
+        #grid-milk .milk-card.top-rank-3 { background: #29221c !important; }
+
+        /* Center the fifth card when a leaderboard has exactly five entries */
+        #grid-sales .gen-card:nth-child(5):last-child,
+        #grid-milk .milk-card:nth-child(5):last-child {
+            grid-column: 1 / -1 !important;
+            width: calc(50% - 5.5px) !important;
+            justify-self: center !important;
+        }
+
+        #grid-sales .gen-user small { color: #38d88b !important; }
+        #grid-sales .gen-value strong { color: #38d88b !important; }
+        #grid-milk .milk-score strong { color: #58b7ff !important; }
+        #grid-sales .gen-quote {
+            background: #252925 !important;
+            border: 1px solid #3a433b !important;
+            border-left: 3px solid #75dba5 !important;
+        }
+        #grid-sales .gen-quote .quote-text { color: #d5ddd7 !important; }
+        #grid-sales .gen-quote button {
+            color: #a8e8c4 !important;
+            background: #303b33 !important;
+            border: 1px solid #4b6252 !important;
+        }
+        #grid-milk .milk-progress { background: #293943 !important; }
+        #grid-milk .milk-progress i { background: #58b7ff !important; }
+
+        /* Tasks: two-column square cards with solid matte surfaces */
+        #grid-tasks {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+            align-items: stretch;
+        }
+        #grid-tasks .task-card {
+            aspect-ratio: 1 / 1 !important;
+            min-height: 0 !important;
+            height: auto !important;
+            padding: 13px !important;
+            gap: 10px !important;
+            justify-content: space-between !important;
+            background: #1b1c1b !important;
+            border: 1px solid #343734 !important;
+            border-radius: 15px !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        #grid-tasks .task-card::before { display: none !important; }
+        #grid-tasks .task-card-top {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 8px;
+            min-width: 0;
+        }
+        #grid-tasks .task-emoji {
+            width: 38px !important;
+            height: 38px !important;
+            flex: 0 0 38px !important;
+            border-radius: 11px !important;
+            color: #f0a04b !important;
+            background: #30251a !important;
+            border: 1px solid #57432e !important;
+            font-size: 21px !important;
+        }
+        #grid-tasks .task-title-wrap {
+            flex: 1 1 75px;
+            min-width: 0;
+        }
+        #grid-tasks .task-index {
+            color: #a0a5a1 !important;
+            font-size: 8px !important;
+        }
+        #grid-tasks .task-name {
+            color: #f2f3f2 !important;
+            font-size: 12px !important;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+        }
+        #grid-tasks .task-kind {
+            color: #f0b574 !important;
+            background: #30251a !important;
+            border: 1px solid #57432e !important;
+            border-radius: 7px !important;
+            padding: 4px 6px !important;
+            font-size: 8px !important;
+        }
+        #grid-tasks .task-main-value {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        #grid-tasks .task-main-value strong {
+            color: #f2f3f2 !important;
+            font-size: clamp(21px, 6vw, 29px) !important;
+            line-height: 1.05;
+            font-weight: 850;
+            overflow-wrap: anywhere;
+        }
+        #grid-tasks .task-main-value span,
+        #grid-tasks .task-money-label {
+            color: #a0a5a1 !important;
+            font-size: 9px !important;
+        }
+        #grid-tasks .task-card-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            border-top: 1px solid #343734 !important;
+            padding-top: 9px;
+        }
+        #grid-tasks .task-money-value {
+            color: #f0a04b !important;
+            font-size: clamp(16px, 4.5vw, 21px) !important;
+            font-weight: 850;
+            overflow-wrap: anywhere;
+        }
+        #grid-tasks .task-money-value small { font-size: .8em; }
+        @media (max-width: 370px) {
+            #grid-tasks { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            #grid-tasks .task-card { padding: 10px !important; }
+            #grid-tasks .task-emoji { width: 32px !important; height: 32px !important; flex-basis: 32px !important; }
+            #grid-tasks .task-name { font-size: 11px !important; }
+        }
+
+        /* Muted, readable calendar and charts */
+        .calendar-cell.c-red { background: #bd514b !important; }
+        .calendar-cell.c-orange { background: #df842f !important; }
+        .calendar-cell.c-yellow { background: #e7c44d !important; }
+        .calendar-cell.c-green { background: #42b978 !important; }
+        .calendar-cell.is-today {
+            outline: 2px solid #e8eee9 !important;
+            box-shadow: none !important;
+        }
+        .graph-type, .chart-data-item {
+            background: #202321 !important;
+            border-color: #3a403b !important;
+        }
+        .chart-data-item strong { color: var(--accent) !important; }
+        .login-box, #login-screen.login-box {
+            background: #191a19 !important;
+            border-color: #343734 !important;
+            box-shadow: none !important;
+        }
+        .login-mark, .login-primary, .login-secondary {
+            background: #38d88b !important;
+            color: #071b11 !important;
+            box-shadow: none !important;
+        }
+        .login-box input:focus { border-color: #38d88b !important; }
+
     </style>
 </head>
 <body>
