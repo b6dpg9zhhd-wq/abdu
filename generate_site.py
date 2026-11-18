@@ -261,7 +261,7 @@ def get_data():
                 GROUP BY s.buyer_id
                 HAVING total > 0
                 ORDER BY total DESC
-                LIMIT 5
+                LIMIT 10
                 """,
                 (since,)
             ).fetchall()
@@ -275,7 +275,7 @@ def get_data():
                 WHERE ts >= ?
                 GROUP BY resource
                 ORDER BY COALESCE(SUM(money), 0) DESC
-                LIMIT 5
+                LIMIT 6
                 """,
                 (since,)
             ).fetchall()
@@ -290,10 +290,20 @@ def get_data():
                 GROUP BY m.user_id
                 HAVING total > 0
                 ORDER BY total DESC
-                LIMIT 5
+                LIMIT 10
                 """,
                 (since,)
             ).fetchall()
+
+            totals = con.execute(
+                """
+                SELECT
+                    (SELECT COALESCE(SUM(count), 0) FROM sales WHERE ts >= ?),
+                    (SELECT COALESCE(SUM(count), 0) FROM milk WHERE ts >= ?),
+                    (SELECT COALESCE(SUM(money), 0) FROM tasks WHERE ts >= ?)
+                """,
+                (since, since, since)
+            ).fetchone()
 
             task_items = []
             for row in tasks:
@@ -320,6 +330,9 @@ def get_data():
                     for r in sales
                 ],
                 "tasks": task_items,
+                "sales_total": int(totals[0] or 0),
+                "milk_total": int(totals[1] or 0),
+                "tasks_money_total": int(totals[2] or 0),
                 "milk": [
                     {
                         "name": r[0] or r[1] or f"id{r[2]}",
@@ -350,6 +363,19 @@ def get_data():
 
         # История графиков для перелистывания назад/вперёд.
         data["history"] = build_graph_history(con, now_date)
+
+        # История календаря: текущий и 23 предыдущих месяца.
+        calendar_history = {}
+        for month_offset in range(-23, 1):
+            cal = get_calendar_data(con, month_offset)
+            month_date = now.replace(day=1) + timedelta(days=month_offset * 31)
+            # Ключ вычисляем календарно, без ошибок на границах месяцев.
+            month_index = now.year * 12 + (now.month - 1) + month_offset
+            cal_year, cal_month_zero = divmod(month_index, 12)
+            cal_key = f"{cal_year}-{cal_month_zero + 1:02d}"
+            cal["total"] = sum(int(day.get("count", 0) or 0) for day in cal["days"])
+            calendar_history[cal_key] = cal
+        data["calendar_history"] = calendar_history
 
         # Подробный журнал операций: до 1 000 строк на источник.
         logs = []
