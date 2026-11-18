@@ -2389,6 +2389,66 @@ body { background:#0d0e0d !important; }
 
 </style>
 
+
+<style id="abdu-final-polish">
+/* Typography: crisp, compact, bold, Telegram-like. */
+:root { --font-ui: -apple-system, BlinkMacSystemFont, "Arial", "Helvetica Neue", sans-serif; }
+html, body, button, input, select, textarea, .tab, .period, .section-heading,
+.gen-card, .milk-card, .task-card, .calendar-cell, .log-table-wrap {
+  font-family: var(--font-ui) !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+}
+body { font-weight: 600 !important; }
+strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
+.calendar-cell .day-value, .section-total { font-weight: 850 !important; font-variant-numeric: tabular-nums lining-nums !important; }
+/* Remove the grey blurred pseudo-elements on the left edges completely. */
+#grid-sales .gen-card::before, #grid-sales .gen-card::after,
+#grid-milk .milk-card::before, #grid-milk .milk-card::after,
+#grid-tasks .task-card::before, #grid-tasks .task-card::after {
+  filter: none !important; backdrop-filter: none !important; box-shadow: none !important;
+  text-shadow: none !important; opacity: 1 !important;
+}
+#grid-sales .gen-card::before, #grid-milk .milk-card::before,
+#grid-tasks .task-card::before { display:none !important; content:none !important; }
+#grid-sales .gen-card, #grid-milk .milk-card, #grid-tasks .task-card {
+  box-shadow: none !important; backdrop-filter: none !important; filter:none !important;
+}
+/* Ranking numbers are the requested emoji sequence, not grey number badges. */
+#grid-sales .rank-medal, #grid-milk .rank-medal {
+  width:auto !important; min-width:27px !important; height:auto !important; padding:0 !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  background:transparent !important; border:0 !important; border-radius:0 !important;
+  color:inherit !important; font-family:var(--font-ui) !important; font-size:20px !important;
+  line-height:1 !important; box-shadow:none !important;
+}
+/* Solid, sharp podium surfaces; no glow or blur. */
+#grid-sales .gen-card.top-rank-1, #grid-milk .milk-card.top-rank-1 { background:#292519 !important; border:1px solid #bca52b !important; }
+#grid-sales .gen-card.top-rank-2, #grid-milk .milk-card.top-rank-2 { background:#202326 !important; border:1px solid #777e83 !important; }
+#grid-sales .gen-card.top-rank-3, #grid-milk .milk-card.top-rank-3 { background:#292019 !important; border:1px solid #986039 !important; }
+/* Section title chip: clear label with icon, not a large generic panel. */
+.section-heading { align-items:center !important; gap:10px !important; }
+.section-heading h2 {
+  display:inline-flex !important; align-items:center !important; width:fit-content !important;
+  padding:7px 12px !important; margin:0 !important; border-radius:9px !important;
+  background:#19221c !important; border:1px solid #294b36 !important;
+  color:#39dc8b !important; font-size:clamp(17px,4.5vw,21px) !important;
+  line-height:1.15 !important; letter-spacing:-.45px !important; font-weight:900 !important;
+}
+.section-heading p { font-size:12px !important; font-weight:700 !important; letter-spacing:.15px !important; }
+.section-total { font-size:clamp(17px,4.6vw,21px) !important; color:#f3f5f3 !important; }
+/* Resource tiles: same compact, square-cornered bot layout. */
+#grid-tasks .task-card { border-radius:12px !important; }
+#grid-tasks .task-name { font-size:14px !important; font-weight:850 !important; letter-spacing:-.2px !important; }
+#grid-tasks .task-amount { color:#ff9b35 !important; font-weight:900 !important; }
+#grid-tasks .task-money-value { color:#38d88b !important; font-weight:900 !important; }
+@media (max-width:600px) {
+  #grid-sales .rank-name, #grid-milk .rank-name { font-size:12px !important; font-weight:800 !important; letter-spacing:-.2px !important; }
+  #grid-sales .rank-value, #grid-milk .rank-value { font-size:13px !important; font-weight:900 !important; }
+  .section-heading h2 { padding:7px 10px !important; }
+}
+</style>
+
 </head>
 <body>
     <div id="login-screen" class="login-box">
@@ -2647,7 +2707,7 @@ body { background:#0d0e0d !important; }
             }
             if (!items.length) { grid.innerHTML = '<div class="empty-state">Пока нет данных за этот период</div>'; return; }
 
-            const medals = ['🥇', '🥈', '🥉'];
+            const medals = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
             let html = '';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
@@ -2655,7 +2715,7 @@ body { background:#0d0e0d !important; }
                 const quoteKey = `abdu_quote_${item.uid || item.name}`;
                 const savedQuote = localStorage.getItem(quoteKey);
                 const quote = savedQuote !== null ? savedQuote : (item.quote || 'Своя цитата ещё не добавлена');
-                const rank = i < 3 ? medals[i] : `${i + 1}`;
+                const rank = medals[i] || `${i + 1}`;
                 if (isMilk) {
                     html += `<article class="card milk-card compact-rank-card rank-${i+1}">
                         <div class="rank-row"><span class="rank-medal">${rank}</span><div class="avatar-box"><img src="${item.ava}" alt=""></div>
