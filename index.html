@@ -556,8 +556,7 @@
 
     
 
-        /* ABDU Manager — matte minimal redesign
-           The task cards and their existing styles are intentionally left unchanged. */
+        /* ABDU Manager — matte minimal base styling. */
         :root {
             --bg: #101210;
             --surface: #181b18;
@@ -984,6 +983,396 @@
             #grid-sales .card .val, #grid-milk .card .val { font-size: 9px; }
         }
 
+
+        /* ABDU Manager — brighter matte visual system */
+        :root {
+            --bg: #101310;
+            --surface: #1b201c;
+            --surface-2: #222922;
+            --surface-3: #2b342d;
+            --line: #39443b;
+            --text: #f5f8f5;
+            --muted: #a4b0a6;
+            --green: #9be9b2;
+            --green-soft: #263c2d;
+        }
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif !important;
+            background: #101310 !important;
+            color: #f5f8f5 !important;
+            letter-spacing: -.12px;
+        }
+        #main-screen {
+            --accent: #9be9b2;
+            --accent-soft: rgba(95, 224, 137, .15);
+            --accent-line: rgba(120, 235, 157, .38);
+            --accent-glow: rgba(75, 220, 125, .12);
+            --accent-ink: #102016;
+        }
+        #main-screen[data-theme="milk"],
+        #main-screen[data-theme="graph-milk"] {
+            --accent: #79c5ff;
+            --accent-soft: rgba(76, 169, 255, .16);
+            --accent-line: rgba(110, 190, 255, .4);
+            --accent-glow: rgba(76, 169, 255, .13);
+            --accent-ink: #0d1c29;
+        }
+        #main-screen[data-theme="tasks"],
+        #main-screen[data-theme="graph-tasks"] {
+            --accent: #ffb36e;
+            --accent-soft: rgba(255, 155, 66, .16);
+            --accent-line: rgba(255, 179, 110, .4);
+            --accent-glow: rgba(255, 155, 66, .13);
+            --accent-ink: #241508;
+        }
+        .title { color: #f5f8f5 !important; }
+        .subtitle, .login-kicker { color: #9be9b2 !important; }
+        .section-heading h2 { color: #f5f8f5 !important; }
+        .section-heading p, .subtitle { opacity: 1; }
+        .tabs, .top-bar, .section-heading, .periods,
+        .chart-container, .calendar-grid, .log-kpi, .log-table-wrap {
+            background: #1b201c !important;
+            border-color: #39443b !important;
+            box-shadow: none !important;
+        }
+        .tab { color: #a4b0a6 !important; font-weight: 750; }
+        .tab.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+        }
+        .period { color: #a4b0a6 !important; }
+        .period.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+            box-shadow: none !important;
+        }
+        .section-icon {
+            color: var(--accent);
+            background: var(--accent-soft) !important;
+            border-color: var(--accent-line) !important;
+        }
+
+        /* Brighter ranking cards; medal colors live on the left edge. */
+        #grid-sales .gen-card,
+        #grid-milk .milk-card {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            min-height: 0;
+            height: auto;
+            overflow: hidden;
+            padding: 13px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            background: #1b211c !important;
+            border: 1px solid #3b463d !important;
+            border-radius: 13px !important;
+            box-shadow: none !important;
+        }
+        #grid-sales .gen-card::before,
+        #grid-milk .milk-card::before {
+            content: "" !important;
+            display: block !important;
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: #4c594f;
+            border-radius: 13px 0 0 13px;
+        }
+        #grid-sales .gen-card.top-rank-1::before,
+        #grid-milk .milk-card.top-rank-1::before { background: #f0c44f; }
+        #grid-sales .gen-card.top-rank-2::before,
+        #grid-milk .milk-card.top-rank-2::before { background: #c5d0d7; }
+        #grid-sales .gen-card.top-rank-3::before,
+        #grid-milk .milk-card.top-rank-3::before { background: #d8945d; }
+        #grid-sales .gen-card.top-rank-1,
+        #grid-milk .milk-card.top-rank-1 { border-color: rgba(240,196,79,.48) !important; }
+        #grid-sales .gen-card.top-rank-2,
+        #grid-milk .milk-card.top-rank-2 { border-color: rgba(197,208,215,.38) !important; }
+        #grid-sales .gen-card.top-rank-3,
+        #grid-milk .milk-card.top-rank-3 { border-color: rgba(216,148,93,.4) !important; }
+
+        #grid-sales .gen-head,
+        #grid-milk .milk-card-head {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+            margin: 0;
+            padding-left: 3px;
+        }
+        #grid-sales .gen-head .avatar-box,
+        #grid-milk .milk-card-head .avatar-box {
+            width: 38px !important;
+            height: 38px !important;
+            flex: 0 0 38px;
+            margin: 0 !important;
+            border-radius: 10px !important;
+            border: 1px solid #526056 !important;
+        }
+        #grid-sales .gen-user,
+        #grid-milk .milk-card-head .info { min-width: 0; }
+        #grid-sales .gen-user .name,
+        #grid-milk .milk-card-head .name {
+            color: #f5f8f5 !important;
+            font-size: 12px !important;
+            line-height: 1.2;
+            font-weight: 800;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            margin: 0 0 4px;
+        }
+        #grid-sales .gen-user small,
+        #grid-milk .milk-caption {
+            color: #a4b0a6 !important;
+            font-size: 8px !important;
+            font-weight: 800;
+            letter-spacing: .65px;
+            line-height: 1.25;
+        }
+        #grid-sales .gen-value,
+        #grid-milk .milk-score {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 5px;
+            min-width: 0;
+            padding-left: 3px;
+            margin: 0 !important;
+        }
+        #grid-sales .gen-value strong,
+        #grid-milk .milk-score strong {
+            color: #f5f8f5 !important;
+            font-size: clamp(21px, 5.2vw, 29px) !important;
+            line-height: 1;
+            font-weight: 850;
+            letter-spacing: -1px;
+            font-variant-numeric: tabular-nums;
+            overflow-wrap: anywhere;
+        }
+        #grid-sales .gen-value span,
+        #grid-milk .milk-score span {
+            color: #a4b0a6 !important;
+            font-size: 10px !important;
+            font-weight: 700;
+        }
+        #grid-sales .gen-quote {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            padding: 7px 8px !important;
+            background: #252d26 !important;
+            border: 1px solid #39463b !important;
+            border-left: 2px solid #9be9b2 !important;
+            border-radius: 8px !important;
+        }
+        #grid-sales .gen-quote .quote-text {
+            color: #d3ddd5 !important;
+            min-width: 0;
+            font-size: 9px;
+            line-height: 1.3;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        #grid-sales .gen-quote button {
+            flex: 0 0 auto;
+            padding: 5px 7px !important;
+            font-size: 9px !important;
+            color: #b9f0c9 !important;
+            background: #304536 !important;
+            border: 1px solid #47664f !important;
+            border-radius: 6px !important;
+        }
+        #grid-milk .milk-progress {
+            height: 6px !important;
+            margin: 0 2px 2px !important;
+            background: #303b33 !important;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+        #grid-milk .milk-progress i {
+            background: #79c5ff !important;
+            border-radius: inherit;
+            box-shadow: none !important;
+        }
+
+        /* Tasks retain their card composition, but share the brighter system. */
+        #grid-tasks .task-card {
+            min-width: 0;
+            background: #1d241f !important;
+            border: 1px solid #3d493f !important;
+            border-top: 1px solid #3d493f !important;
+            border-radius: 13px !important;
+            box-shadow: none !important;
+        }
+        #grid-tasks .task-card::before {
+            width: 4px;
+            background: #ffad62 !important;
+            opacity: .95;
+        }
+        #grid-tasks .task-emoji {
+            color: #ffbd7d;
+            background: #35291e !important;
+            border: 1px solid #63472d !important;
+            border-radius: 11px !important;
+        }
+        #grid-tasks .task-name { color: #f5f8f5 !important; }
+        #grid-tasks .task-index,
+        #grid-tasks .task-money-label { color: #a9b4aa !important; }
+        #grid-tasks .task-kind {
+            color: #ffc18b !important;
+            background: #35291e !important;
+            border: 1px solid #63472d !important;
+        }
+        #grid-tasks .task-main-value strong { color: #fff !important; }
+        #grid-tasks .task-main-value span { color: #a4b0a6 !important; }
+        #grid-tasks .task-card-bottom { border-color: #3a453c !important; }
+        #grid-tasks .task-money-value { color: #ffbd7d !important; }
+
+        /* More vivid heatmap with readable labels and a clear today marker. */
+        .calendar-weekdays { color: #b5c0b7 !important; }
+        .calendar-grid {
+            gap: 6px !important;
+            padding: 12px !important;
+            border-radius: 13px !important;
+        }
+        .calendar-cell {
+            border-radius: 8px !important;
+            border: 1px solid rgba(255,255,255,.07) !important;
+            transition: transform .18s ease, filter .18s ease, border-color .18s ease;
+        }
+        .calendar-cell:not(.empty):active { transform: scale(.96); }
+        .calendar-cell.c-gray { background: #2a322b !important; }
+        .calendar-cell.c-red { background: #bd514b !important; }
+        .calendar-cell.c-orange { background: #df842f !important; }
+        .calendar-cell.c-yellow { background: #e7c44d !important; }
+        .calendar-cell.c-green { background: #42b978 !important; }
+        .calendar-cell.c-gray .day-number { color: #d5ded6 !important; }
+        .calendar-cell.c-gray .day-value { color: #f0f4f0 !important; }
+        .calendar-cell.c-red .day-number,
+        .calendar-cell.c-orange .day-number { color: rgba(255,255,255,.9) !important; }
+        .calendar-cell.c-yellow .day-number,
+        .calendar-cell.c-yellow .day-value,
+        .calendar-cell.c-green .day-number,
+        .calendar-cell.c-green .day-value { color: #142019 !important; }
+        .calendar-cell.is-today {
+            outline: 2px solid #f5f8f5 !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 4px rgba(155,233,178,.2) !important;
+        }
+        #calendar-title {
+            color: #f5f8f5 !important;
+            font-size: 16px !important;
+            font-weight: 850 !important;
+            letter-spacing: -.3px;
+        }
+
+        /* Clear range switcher and brighter charts. */
+        #periods-graph {
+            display: grid !important;
+            grid-template-columns: repeat(3,minmax(0,1fr));
+            gap: 5px !important;
+            padding: 4px !important;
+            background: #1b201c !important;
+            border: 1px solid #39443b !important;
+            border-radius: 10px !important;
+        }
+        #periods-graph .period {
+            padding: 10px 5px !important;
+            color: #a4b0a6 !important;
+            border-radius: 7px !important;
+            text-align: center;
+        }
+        #periods-graph .period.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+        }
+        .graph-type {
+            color: #b3beb5 !important;
+            background: #1b201c !important;
+            border-color: #39443b !important;
+        }
+        .graph-type.active {
+            color: var(--accent-ink) !important;
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+        .chart-container {
+            background: #1b201c !important;
+            border: 1px solid #39443b !important;
+            border-radius: 13px !important;
+            box-shadow: none !important;
+        }
+        .chart-data-heading {
+            color: #e5ece6 !important;
+            font-weight: 800;
+        }
+        .chart-data-item {
+            background: #222922 !important;
+            border-color: #39443b !important;
+        }
+        .chart-data-item span { color: #b3beb5 !important; }
+        .chart-data-item strong { color: var(--accent) !important; }
+
+        .login-box, #login-screen.login-box {
+            background: #1b201c !important;
+            border-color: #39443b !important;
+            box-shadow: none !important;
+        }
+        .login-mark, .login-primary, .login-secondary {
+            background: #9be9b2 !important;
+            color: #102016 !important;
+            box-shadow: none !important;
+        }
+        .login-box input { border-color: #414c43 !important; }
+        .login-box input:focus { border-color: #9be9b2 !important; }
+        .footer { color: #a4b0a6 !important; }
+
+        @media (max-width: 600px) {
+            #grid-sales .gen-card, #grid-milk .milk-card {
+                padding: 10px !important;
+                border-radius: 11px !important;
+            }
+            #grid-sales .gen-head, #grid-milk .milk-card-head { gap: 7px; }
+            #grid-sales .gen-head .avatar-box,
+            #grid-milk .milk-card-head .avatar-box {
+                width: 32px !important; height: 32px !important; flex-basis: 32px;
+            }
+            #grid-sales .gen-user .name,
+            #grid-milk .milk-card-head .name { font-size: 10px !important; }
+            #grid-sales .gen-user small,
+            #grid-milk .milk-caption { font-size: 7px !important; }
+            #grid-sales .gen-value strong,
+            #grid-milk .milk-score strong { font-size: clamp(18px, 5.3vw, 24px) !important; }
+            #grid-sales .gen-quote { padding: 6px !important; }
+            #grid-sales .gen-quote .quote-text { font-size: 8px; }
+            #grid-sales .gen-quote button { padding: 4px 5px !important; font-size: 8px !important; }
+            #grid-tasks .task-card { min-height: 178px; padding: 12px !important; }
+            #grid-tasks .task-emoji { width: 39px; height: 39px; flex-basis: 39px; }
+            .calendar-grid { gap: 4px !important; padding: 9px !important; }
+            .calendar-weekdays { gap: 4px !important; padding-left: 9px; padding-right: 9px; }
+            .calendar-cell .day-number { top: 4px; left: 4px; font-size: 9px; }
+            .calendar-cell .day-value { font-size: clamp(9px, 2.5vw, 13px); }
+        }
+        @media (max-width: 370px) {
+            #grid-sales, #grid-milk { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+            #grid-sales .gen-card, #grid-milk .milk-card { padding: 8px !important; }
+            #grid-sales .gen-quote button { display: none; }
+            #grid-tasks { grid-template-columns: 1fr !important; }
+        }
+        @media (prefers-reduced-motion: no-preference) {
+            #grid-sales .gen-card, #grid-milk .milk-card, #grid-tasks .task-card {
+                transition: transform .2s ease, border-color .2s ease, background .2s ease;
+            }
+            #grid-sales .gen-card:active, #grid-milk .milk-card:active, #grid-tasks .task-card:active {
+                transform: scale(.985);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1064,7 +1453,7 @@
                 <button class="graph-type" data-kind="tasks" onclick="setGraphType('tasks', this)">📦 Таски</button>
             </div>
             <div class="periods" id="periods-graph">
-                <div class="period active" onclick="drawChart('today', this)">Сутки</div>
+                <div class="period active" onclick="drawChart('today', this)">День</div>
                 <div class="period" onclick="drawChart('week', this)">Неделя</div>
                 <div class="period" onclick="drawChart('month', this)">Месяц</div>
             </div>
@@ -1231,9 +1620,8 @@
                 const savedQuote = localStorage.getItem(quoteKey);
                 const quote = savedQuote !== null ? savedQuote : (item.quote || 'Своя цитата ещё не добавлена');
                 if (isMilk) {
-                    html += `<article class="card milk-card milk-rank-${Math.min(i + 1, 3)}" style="animation-delay:${Math.min(i, 8) * 55}ms">
+                    html += `<article class="card milk-card top-rank-${Math.min(i + 1, 3)}" style="animation-delay:${Math.min(i, 8) * 55}ms">
                         <div class="milk-card-head">
-                            <span class="milk-rank">${i === 0 ? '👑' : `#${i + 1}`}</span>
                             <div class="avatar-box"><img src="${item.ava}" alt=""></div>
                             <div class="info"><div class="name">${item.name}</div><div class="milk-caption">УЧАСТНИК ДОЙКИ</div></div>
                         </div>
@@ -1241,9 +1629,8 @@
                         <div class="milk-progress"><i style="width:${Math.max(8, Number(item.val || 0) / Math.max(1, Number(items[0].val || 1)) * 100)}%"></i></div>
                     </article>`;
                 } else {
-                    html += `<article class="card gen-card" style="animation-delay:${Math.min(i, 8) * 55}ms">
+                    html += `<article class="card gen-card top-rank-${Math.min(i + 1, 3)}" style="animation-delay:${Math.min(i, 8) * 55}ms">
                         <div class="gen-head">
-                            <span class="gen-rank ${i === 0 ? 'first' : ''}">${i === 0 ? '👑' : `#${i + 1}`}</span>
                             <div class="avatar-box"><img src="${item.ava}" alt=""></div>
                             <div class="gen-user"><div class="name">${item.name}</div><small>УЧАСТНИК · ГЕНЕРАЦИИ</small></div>
                         </div>
@@ -1358,7 +1745,8 @@
             }[currentGraphType];
             const fmt = value => Number(value || 0).toLocaleString('ru-RU');
 
-            list.innerHTML = `<div class="chart-data-heading"><span>Значения по дням</span><span>${palette.unit}</span></div>` + labels.map((label, i) =>
+            const rangeTitle = period === 'today' ? 'Значения за день' : period === 'week' ? 'Значения за неделю' : 'Значения за месяц';
+            list.innerHTML = `<div class="chart-data-heading"><span>${rangeTitle}</span><span>${palette.unit}</span></div>` + labels.map((label, i) =>
                 `<div class="chart-data-item"><span>${label}</span><strong>${fmt(values[i])}</strong></div>`
             ).join('');
 
