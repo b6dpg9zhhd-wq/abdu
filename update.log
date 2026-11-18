@@ -14822,3 +14822,29 @@ OK: data.json обновлен (с графиками и календарем)
 OK: data.json обновлен (с графиками и календарем)
 fatal: index.html: no such path in the working tree.
 Use 'git <command> -- <path>...' to specify paths that do not exist locally.
+[main f39f1db] Auto-update 2026-11-18 18:50
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 34 insertions(+), 2311 deletions(-)
+ delete mode 100644 index.html
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+   9dc63bf..f39f1db  main -> main
+Сайт обновлен
+OK: data.json обновлен (с графиками и календарем)
+Нет изменений
+OK: data.json обновлен (с графиками и календарем)
+Нет изменений
+python3: can't open file '/root/abdu/site/generate_site.py': [Errno 2] No such file or directory
+Нет изменений
+OK: data.json обновлён; история графиков: 400 дней
