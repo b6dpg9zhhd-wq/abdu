@@ -2220,6 +2220,173 @@ body:has(#login-screen[style*="flex"], #login-screen:not([style*="display: none"
 #login-screen #login-status { color:#9ba69e !important; font-size:12px !important; }
 #login-screen .login-foot { border-top:1px solid #303632 !important; color:#89958d !important; font-size:11px !important; }
 @media (max-width:520px) { #login-screen.login-box { margin:7vh auto 0 !important; padding:27px 20px 20px !important; } }
+
+
+/* ===== Final reference match: crisp typography, podium ranks, task tiles, minimal login ===== */
+:root {
+  --font-ui: -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+html, body, button, input, select, textarea {
+  font-family: var(--font-ui) !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body { background:#0d0e0d !important; }
+.title, .section-heading h2, .section-total, .tab, .period,
+.gen-user .name, .rank-name, .rank-value, .task-name,
+.task-amount, .task-money-value, #calendar-title,
+.calendar-month-nav strong, .calendar-cell .day-number,
+.calendar-cell .day-value {
+  font-family: var(--font-ui) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.35px !important;
+}
+
+/* Ranking: solid matte cards with the same medal and left-edge podium marker as the reference. */
+@media (max-width:600px) {
+  #grid-sales, #grid-milk {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:8px !important;
+    align-items:stretch !important;
+  }
+  #grid-sales .compact-rank-card, #grid-milk .compact-rank-card {
+    position:relative !important;
+    min-height:59px !important;
+    height:59px !important;
+    padding:8px 8px 8px 9px !important;
+    border:0 !important;
+    border-left:4px solid #303330 !important;
+    border-radius:12px !important;
+    background:#1b1c1b !important;
+    box-shadow:none !important;
+    filter:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  #grid-sales .compact-rank-card.rank-1, #grid-milk .compact-rank-card.rank-1 {
+    background:#2b2517 !important; border-left-color:#e3c400 !important;
+  }
+  #grid-sales .compact-rank-card.rank-2, #grid-milk .compact-rank-card.rank-2 {
+    background:#202328 !important; border-left-color:#a8aeb5 !important;
+  }
+  #grid-sales .compact-rank-card.rank-3, #grid-milk .compact-rank-card.rank-3 {
+    background:#2b1e18 !important; border-left-color:#bd7b3c !important;
+  }
+  #grid-sales .rank-row, #grid-milk .rank-row {
+    display:grid !important;
+    grid-template-columns:25px minmax(0,1fr) auto !important;
+    gap:6px !important; align-items:center !important; width:100% !important;
+  }
+  #grid-sales .rank-medal, #grid-milk .rank-medal {
+    width:24px !important; height:24px !important; border-radius:7px !important;
+    display:grid !important; place-items:center !important;
+    background:#29302b !important; color:#f4f5f4 !important;
+    font-size:14px !important; font-weight:900 !important;
+  }
+  #grid-sales .rank-name, #grid-milk .rank-name {
+    min-width:0 !important; overflow:hidden !important; text-overflow:ellipsis !important;
+    white-space:nowrap !important; color:#f3f4f3 !important;
+    font-size:clamp(11px,3.15vw,14px) !important; font-weight:800 !important;
+    line-height:1.15 !important;
+  }
+  #grid-sales .rank-value, #grid-milk .rank-value {
+    color:#35df91 !important; font-size:clamp(12px,3.4vw,15px) !important;
+    font-weight:900 !important; white-space:nowrap !important;
+    font-variant-numeric:tabular-nums !important;
+  }
+  #grid-sales .avatar-box, #grid-milk .avatar-box,
+  #grid-sales .gen-quote, #grid-milk .gen-quote { display:none !important; }
+
+  /* Tasks: match the bot screenshot — simple, flat resource tiles. */
+  #grid-tasks {
+    display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px !important; align-items:stretch !important;
+  }
+  #grid-tasks .screenshot-task-card {
+    min-width:0 !important; min-height:104px !important; height:auto !important;
+    padding:13px 8px !important; border:0 !important; border-left:4px solid #303330 !important;
+    border-radius:13px !important; background:#1b1c1b !important;
+    display:flex !important; flex-direction:column !important; justify-content:center !important;
+    align-items:stretch !important; gap:11px !important; box-shadow:none !important;
+    backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+  }
+  #grid-tasks .screenshot-task-card:nth-child(4n+1) {
+    background:#2b2517 !important; border-left-color:#e3c400 !important;
+  }
+  #grid-tasks .screenshot-task-card:nth-child(4n+3) {
+    background:#202328 !important; border-left-color:#a8aeb5 !important;
+  }
+  #grid-tasks .screenshot-task-card:nth-child(4n+5) {
+    background:#2b1e18 !important; border-left-color:#bd7b3c !important;
+  }
+  #grid-tasks .task-card-top {
+    display:flex !important; justify-content:center !important; align-items:center !important;
+    gap:7px !important; min-width:0 !important;
+  }
+  #grid-tasks .task-emoji {
+    display:inline !important; width:auto !important; height:auto !important; flex:0 0 auto !important;
+    padding:0 !important; border:0 !important; border-radius:0 !important;
+    background:transparent !important; font-size:20px !important; line-height:1 !important;
+  }
+  #grid-tasks .task-title-wrap { min-width:0 !important; }
+  #grid-tasks .task-name {
+    color:#cfd2cf !important; text-align:center !important;
+    font-size:clamp(12px,3.5vw,15px) !important; font-weight:850 !important;
+    line-height:1.2 !important; white-space:nowrap !important;
+  }
+  #grid-tasks .task-inline-values {
+    display:flex !important; align-items:center !important; justify-content:center !important;
+    gap:8px !important; min-width:0 !important; white-space:nowrap !important;
+  }
+  #grid-tasks .task-amount {
+    color:#ff9b35 !important; font-size:clamp(12px,3.5vw,17px) !important;
+    font-weight:900 !important; font-variant-numeric:tabular-nums !important;
+  }
+  #grid-tasks .task-inline-values i { display:block !important; width:1px !important; height:19px !important; background:#484b48 !important; }
+  #grid-tasks .task-money-value {
+    color:#38df91 !important; font-size:clamp(11px,3.25vw,16px) !important;
+    font-weight:900 !important; font-variant-numeric:tabular-nums !important;
+  }
+  #grid-tasks .task-money-value small { font-size:11px !important; }
+}
+
+/* Minimal access screen: plain matte panel, no glow, gradients or decorative logo effects. */
+#login-screen.login-box, .login-box {
+  position:relative !important; overflow:hidden !important;
+  width:min(100%,360px) !important; margin:9vh auto 0 !important;
+  padding:25px 22px 21px !important; gap:13px !important;
+  border:1px solid #303632 !important; border-radius:16px !important;
+  background:#151816 !important; box-shadow:none !important;
+  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+}
+#login-screen.login-box::before, .login-box::before { display:none !important; }
+.login-mark {
+  width:44px !important; height:44px !important; margin:0 auto 4px !important;
+  border-radius:12px !important; background:#26372d !important; color:#72e6a5 !important;
+  box-shadow:none !important; font-size:15px !important;
+}
+.login-mark i { display:none !important; }
+.login-heading { margin-bottom:7px !important; }
+.login-kicker { color:#70d99d !important; font-size:10px !important; font-weight:800 !important; letter-spacing:1.3px !important; }
+.login-box h2 { color:#f2f4f2 !important; font-size:23px !important; font-weight:850 !important; letter-spacing:-.5px !important; }
+.login-heading p { color:#929b94 !important; font-size:12px !important; }
+.login-label { color:#b4bdb6 !important; font-size:12px !important; font-weight:750 !important; }
+.login-box input {
+  min-height:47px !important; padding:12px 13px !important;
+  border:1px solid #363d38 !important; border-radius:10px !important;
+  background:#0f1210 !important; color:#f3f5f3 !important;
+  font-size:15px !important; box-shadow:none !important;
+}
+.login-box input:focus { border-color:#69d99a !important; background:#111713 !important; box-shadow:0 0 0 2px rgba(105,217,154,.10) !important; }
+.login-box button, .login-primary, .login-secondary {
+  min-height:47px !important; border:0 !important; border-radius:10px !important;
+  background:#69d99a !important; color:#0b1710 !important;
+  box-shadow:none !important; font-size:14px !important; font-weight:850 !important;
+}
+.login-primary b { font-size:18px !important; }
+.login-foot { border-top:1px solid #2c332e !important; color:#818b84 !important; font-size:10px !important; }
+.login-lock { color:#69d99a !important; }
+
 </style>
 
 </head>
