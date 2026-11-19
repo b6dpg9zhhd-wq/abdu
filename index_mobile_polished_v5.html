@@ -2449,6 +2449,50 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
 }
 </style>
 
+
+<style id="abdu-dynamic-section-themes">
+/* Section-wide accent system: green generations, orange tasks, blue milk. */
+#main-screen { --accent:#35d889; --accent-soft:#192c22; --accent-line:#326849; --accent-ink:#07170e; }
+#main-screen[data-theme="sales"], #main-screen[data-theme="graph-sales"] {
+  --accent:#35d889; --accent-soft:#1a2b21; --accent-line:#326849; --accent-ink:#07170e;
+}
+#main-screen[data-theme="tasks"], #main-screen[data-theme="graph-tasks"] {
+  --accent:#ff982f; --accent-soft:#302316; --accent-line:#805022; --accent-ink:#1b1005;
+}
+#main-screen[data-theme="milk"], #main-screen[data-theme="graph-milk"] {
+  --accent:#49aaff; --accent-soft:#192a3a; --accent-line:#315f86; --accent-ink:#071522;
+}
+/* The active tab and period use the current section color, not a fixed green. */
+#main-screen .tab.active, #main-screen .period.active,
+#main-screen .graph-type.active {
+  background:var(--accent) !important; color:var(--accent-ink) !important;
+  border-color:var(--accent) !important; box-shadow:none !important;
+}
+#main-screen .section-heading h2 {
+  background:var(--accent-soft) !important; border:1px solid var(--accent-line) !important;
+  color:var(--accent) !important;
+}
+#main-screen .section-heading p,
+#main-screen .section-total { color:var(--accent) !important; }
+#main-screen .periods { border-color:var(--accent-line) !important; }
+#main-screen .graph-date-nav button,
+#main-screen .calendar-month-nav button { border-color:var(--accent-line) !important; }
+#main-screen .graph-type { border-color:var(--accent-line) !important; }
+/* Crisp medal display. The first three positions are actual medals. */
+#grid-sales .rank-medal, #grid-milk .rank-medal {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+  font-size:19px !important; min-width:25px !important;
+}
+#grid-sales .rank-1 .rank-medal, #grid-milk .rank-1 .rank-medal,
+#grid-sales .rank-2 .rank-medal, #grid-milk .rank-2 .rank-medal,
+#grid-sales .rank-3 .rank-medal, #grid-milk .rank-3 .rank-medal {
+  font-size:21px !important;
+}
+/* Preserve the bot's semantic task colors: amount orange, earned money green. */
+#grid-tasks .task-amount { color:#ff982f !important; }
+#grid-tasks .task-money-value { color:#35d889 !important; }
+</style>
+
 </head>
 <body>
     <div id="login-screen" class="login-box">
@@ -2707,7 +2751,7 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
             }
             if (!items.length) { grid.innerHTML = '<div class="empty-state">Пока нет данных за этот период</div>'; return; }
 
-            const medals = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+            const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
             let html = '';
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
