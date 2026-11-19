@@ -2493,6 +2493,127 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
 #grid-tasks .task-money-value { color:#35d889 !important; }
 </style>
 
+
+    <style id="abdu-auth-minimal-v2">
+        /* Чистая авторизация: матовая поверхность, строгая типографика, без свечений. */
+        #login-screen.login-box {
+            width: min(100%, 370px) !important;
+            max-width: 370px !important;
+            margin: clamp(34px, 12vh, 110px) auto 0 !important;
+            padding: 30px 26px 22px !important;
+            gap: 13px !important;
+            display: flex;
+            background: #181b18 !important;
+            border: 1px solid #343a34 !important;
+            border-radius: 16px !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+        }
+        #login-screen .login-mark {
+            width: auto !important;
+            height: auto !important;
+            margin: 0 0 7px !important;
+            padding: 0 !important;
+            display: block !important;
+            color: #9be0ae !important;
+            background: none !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            font-size: 12px !important;
+            font-weight: 900 !important;
+            letter-spacing: 2px !important;
+        }
+        #login-screen .login-mark i { display: none !important; }
+        #login-screen .login-heading { text-align: left !important; margin: 0 0 8px !important; }
+        #login-screen .login-kicker {
+            color: #9be0ae !important;
+            font-size: 9px !important;
+            letter-spacing: 1.7px !important;
+            margin-bottom: 9px !important;
+        }
+        #login-screen .login-heading h2 {
+            color: #edf1ed !important;
+            text-align: left !important;
+            font-size: 24px !important;
+            font-weight: 850 !important;
+            letter-spacing: -.8px !important;
+        }
+        #login-screen .login-heading p {
+            margin-top: 6px !important;
+            color: #929b93 !important;
+            font-size: 12px !important;
+        }
+        #login-screen .login-label {
+            margin: 2px 0 -5px !important;
+            color: #b7c0b8 !important;
+            font-size: 11px !important;
+            font-weight: 750 !important;
+            letter-spacing: .1px !important;
+        }
+        #login-screen input {
+            width: 100% !important;
+            min-height: 48px !important;
+            padding: 12px 13px !important;
+            color: #edf1ed !important;
+            background: #101310 !important;
+            border: 1px solid #394039 !important;
+            border-radius: 9px !important;
+            box-shadow: none !important;
+            font-size: 15px !important;
+        }
+        #login-screen input:focus {
+            border-color: #83c99b !important;
+            outline: none !important;
+            box-shadow: 0 0 0 2px rgba(131,201,155,.10) !important;
+        }
+        #login-screen input::placeholder { color: #69736b !important; }
+        #login-screen .login-primary,
+        #login-screen .login-secondary {
+            position: relative !important;
+            width: 100% !important;
+            min-height: 47px !important;
+            justify-content: center !important;
+            padding: 12px 14px !important;
+            color: #102016 !important;
+            background: #9be0ae !important;
+            border: 1px solid #9be0ae !important;
+            border-radius: 9px !important;
+            box-shadow: none !important;
+            font-size: 13px !important;
+            font-weight: 850 !important;
+        }
+        #login-screen .login-primary b { right: 15px !important; font-size: 18px !important; }
+        #login-screen button:disabled { opacity: .55 !important; cursor: wait !important; }
+        #login-screen .login-code-wrap { display: none; flex-direction: column; gap: 10px; }
+        #login-screen .login-secondary { display: none; }
+        #login-status {
+            min-height: 18px !important;
+            margin: 1px 0 0 !important;
+            color: #aab5ac !important;
+            font-size: 11px !important;
+            line-height: 1.45 !important;
+            text-align: left !important;
+        }
+        #login-screen .login-foot {
+            justify-content: flex-start !important;
+            margin-top: 5px !important;
+            padding-top: 13px !important;
+            color: #818b82 !important;
+            border-top: 1px solid #303630 !important;
+            font-size: 10px !important;
+        }
+        #login-screen .login-lock { color: #9be0ae !important; }
+        @media (max-width: 430px) {
+            #login-screen.login-box {
+                width: 100% !important;
+                margin: 8vh auto 0 !important;
+                padding: 26px 21px 19px !important;
+                border-radius: 14px !important;
+            }
+        }
+    </style>
+
 </head>
 <body>
     <div id="login-screen" class="login-box">
@@ -2627,61 +2748,94 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
         let currentGraphPeriod = 'today';
         let graphDateOffset = 0;
         let calendarMonthOffset = 0;
+        let dataRefreshTimer = null;
+        let dataRequestInFlight = false;
 
         const savedToken = localStorage.getItem('auth_token');
         if (savedToken) {
-            userId = parseInt(savedToken);
-            isAuthorized = true;
-            showMainScreen();
-            loadData();
+            loadData(true);
         }
 
         async function sendCode() {
-            const id = document.getElementById('login-id').value;
-            if (!id) return alert('Введи ID');
-            document.getElementById('login-status').textContent = 'Отправляю...';
+            const idField = document.getElementById('login-id');
+            const id = String(idField.value || '').trim();
+            const status = document.getElementById('login-status');
+            const sendButton = document.querySelector('.login-primary');
+
+            if (!/^\d{5,15}$/.test(id)) {
+                status.textContent = 'Проверь Telegram ID';
+                idField.focus();
+                return;
+            }
+
+            sendButton.disabled = true;
+            status.textContent = 'Отправляем код…';
+
             try {
                 const res = await fetch(API_URL + '/api/send_code', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({user_id: parseInt(id)})
+                    body: JSON.stringify({user_id: Number(id)})
                 });
-                const json = await res.json();
-                if (res.ok) {
-                    document.getElementById('login-code').style.display = 'block';
-                    document.querySelector('.login-code-wrap').style.display = 'flex';
-                    document.querySelectorAll('.login-box button')[1].style.display = 'block';
-                    document.getElementById('login-status').textContent = 'Код отправлен в ЛС';
-                    userId = parseInt(id);
-                } else {
-                    document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+                const json = await res.json().catch(() => ({}));
+
+                if (!res.ok) {
+                    status.textContent = json.detail || 'Не удалось отправить код';
+                    return;
                 }
+
+                userId = Number(id);
+                document.getElementById('login-code').style.display = 'block';
+                document.querySelector('.login-code-wrap').style.display = 'flex';
+                document.querySelector('.login-secondary').style.display = 'flex';
+                document.getElementById('login-code').focus();
+                status.textContent = 'Код отправлен в Telegram. Он действует 5 минут.';
             } catch (e) {
-                document.getElementById('login-status').textContent = 'Сервер недоступен';
+                status.textContent = 'Сервер авторизации недоступен';
+            } finally {
+                sendButton.disabled = false;
             }
         }
 
         async function verifyCode() {
-            const code = document.getElementById('login-code').value;
-            if (!code) return alert('Введи код');
-            document.getElementById('login-status').textContent = 'Проверяю...';
+            const codeField = document.getElementById('login-code');
+            const code = String(codeField.value || '').trim();
+            const status = document.getElementById('login-status');
+            const verifyButton = document.querySelector('.login-secondary');
+
+            if (!userId) {
+                status.textContent = 'Сначала запроси код';
+                return;
+            }
+            if (!/^\d{6}$/.test(code)) {
+                status.textContent = 'Введи шестизначный код';
+                codeField.focus();
+                return;
+            }
+
+            verifyButton.disabled = true;
+            status.textContent = 'Проверяем код…';
+
             try {
                 const res = await fetch(API_URL + '/api/verify_code', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({user_id: userId, code: code})
+                    body: JSON.stringify({user_id: userId, code})
                 });
-                const json = await res.json();
-                if (res.ok) {
-                    localStorage.setItem('auth_token', json.token);
-                    isAuthorized = true;
-                    showMainScreen();
-                    loadData();
-                } else {
-                    document.getElementById('login-status').textContent = json.detail || 'Ошибка';
+                const json = await res.json().catch(() => ({}));
+
+                if (!res.ok || !json.token) {
+                    status.textContent = json.detail || 'Неверный или просроченный код';
+                    return;
                 }
+
+                localStorage.setItem('auth_token', json.token);
+                status.textContent = 'Вход выполнен';
+                await loadData(true);
             } catch (e) {
-                document.getElementById('login-status').textContent = 'Сервер недоступен';
+                status.textContent = 'Сервер авторизации недоступен';
+            } finally {
+                verifyButton.disabled = false;
             }
         }
 
@@ -2689,21 +2843,73 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-screen').style.display = 'block';
             document.getElementById('main-screen').dataset.theme = 'sales';
+            if (dataRefreshTimer) clearInterval(dataRefreshTimer);
+            dataRefreshTimer = setInterval(() => loadData(false), 10000);
         }
 
-        function logout() {
+        function showLoginScreen(message = '') {
+            isAuthorized = false;
+            if (dataRefreshTimer) {
+                clearInterval(dataRefreshTimer);
+                dataRefreshTimer = null;
+            }
+            document.getElementById('main-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            if (message) document.getElementById('login-status').textContent = message;
+        }
+
+        async function logout() {
+            const token = localStorage.getItem('auth_token');
+            if (token) {
+                try {
+                    await fetch(API_URL + '/api/logout', {
+                        method: 'POST',
+                        headers: {'Authorization': 'Bearer ' + token}
+                    });
+                } catch (e) {}
+            }
             localStorage.removeItem('auth_token');
-            location.reload();
+            isAuthorized = false;
+            showLoginScreen('Вы вышли из аккаунта');
         }
 
-        async function loadData() {
+        async function loadData(initial = false) {
+            if (dataRequestInFlight) return;
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                showLoginScreen();
+                return;
+            }
+
+            dataRequestInFlight = true;
             try {
-                const res = await fetch('data.json?t=' + Date.now());
+                const res = await fetch(API_URL + '/api/data', {
+                    method: 'GET',
+                    headers: {'Authorization': 'Bearer ' + token},
+                    cache: 'no-store'
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem('auth_token');
+                    showLoginScreen('Сессия завершена. Войди заново.');
+                    return;
+                }
+                if (!res.ok) throw new Error('API ' + res.status);
+
                 data = await res.json();
+                isAuthorized = true;
+                showMainScreen();
                 render();
                 if (currentSection === 'graph') drawChart(currentGraphPeriod);
                 if (currentSection === 'calendar') drawCalendar(0);
-            } catch (e) { console.error(e); }
+            } catch (e) {
+                console.error('Не удалось обновить данные:', e);
+                if (initial && !isAuthorized) {
+                    showLoginScreen('Не удалось подключиться к панели. Попробуй ещё раз.');
+                }
+            } finally {
+                dataRequestInFlight = false;
+            }
         }
 
         function showSection(s, el) {
