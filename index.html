@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
+
+<script>
+
+try {
+
+    if (localStorage.getItem('auth_token')) {
+
+        document.documentElement.classList.add('has-session');
+
+    }
+
+} catch (e) {}
+
+</script>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2612,7 +2628,43 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
                 border-radius: 14px !important;
             }
         }
-    </style>
+    
+
+<style>
+
+html.has-session body::before {
+
+    content: "Загрузка панели…";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #090a09;
+
+    color: #929b94;
+
+    font: 700 14px system-ui, sans-serif;
+
+}
+
+html.has-session #login-screen {
+
+    display: none !important;
+
+}
+
+</style>
+
+</style>
 
 </head>
 <body>
@@ -2840,6 +2892,7 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
         }
 
         function showMainScreen() {
+    document.documentElement.classList.remove('has-session');
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-screen').style.display = 'block';
             document.getElementById('main-screen').dataset.theme = 'sales';
@@ -2848,6 +2901,7 @@ strong, b, .section-heading h2, .rank-value, .task-amount, .task-money-value,
         }
 
         function showLoginScreen(message = '') {
+    document.documentElement.classList.remove('has-session');
             isAuthorized = false;
             if (dataRefreshTimer) {
                 clearInterval(dataRefreshTimer);
