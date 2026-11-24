@@ -90889,3 +90889,93 @@ To https://github.com/b6dpg9zhhd-wq/abdu.git
 error: failed to push some refs to 'https://github.com/b6dpg9zhhd-wq/abdu.git'
 Сайт обновлен
 OK: data.json обновлён; история графиков: 400 дней
+[main c2033cc] Auto-update 2026-11-24 18:20
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 83 insertions(+), 1 deletion(-)
+remote: error: GH013: Repository rule violations found for refs/heads/main.        
+remote: 
+remote: - GITHUB PUSH PROTECTION        
+remote:   —————————————————————————————————————————        
+remote:     Resolve the following violations before pushing again        
+remote: 
+remote:     - Push cannot contain secrets        
+remote: 
+remote:             
+remote:      (?) Learn how to resolve a blocked push        
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push        
+remote:             
+remote:             
+remote:       —— GitHub Personal Access Token ——————————————————————        
+remote:        locations:        
+remote:          - commit: 5b5fd93a93ea470c68797bd7c943aeebe0328b65        
+remote:            path: update.log:90100        
+remote:          - commit: 1ba452ee11945301e5c4238277bbb49d9f8449ce        
+remote:            path: update.log:90100        
+remote:          - commit: 20ebfd1ddf41133b102ed97d72693bef2fac045d        
+remote:            path: update.log:90100        
+remote:          - commit: e6e321f9b9ab194dfc89e8e6467120539bbb0987        
+remote:            path: update.log:90100        
+remote:          - commit: d385fd7af6953ae8bff6cd69cd1a56185fc1355e        
+remote:            path: update.log:90100        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/b6dpg9zhhd-wq/abdu/security/secret-scanning/unblock-secret/3MYgHBLEreTXEYNmd4nsFW7hogK        
+remote:             
+remote: 
+remote: 
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+ ! [remote rejected] main -> main (error: GH013: Repository rule violations found for refs/heads/main.
+
+- GITHUB PUSH PROTECTION
+  —————————————————————————————————————————
+    Resolve the following violations before pushing again
+
+    - Push cannot contain secrets
+
+    
+     (?) Learn how to resolve a blocked push
+     https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+    
+    
+      —— GitHub Personal Access Token ——————————————————————
+       locations:
+         - commit: 5b5fd93a93ea470c68797bd7c943aeebe0328b65
+           path: update.log:90100
+         - commit: 1ba452ee11945301e5c4238277bbb49d9f8449ce
+           path: update.log:90100
+         - commit: 20ebfd1ddf41133b102ed97d72693bef2fac045d
+           path: update.log:90100
+         - commit: e6e321f9b9ab194dfc89e8e6467120539bbb0987
+           path: update.log:90100
+         - commit: d385fd7af6953ae8bff6cd69cd1a56185fc1355e
+           path: update.log:90100
+    
+       (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+       https://github.com/b6dpg9zhhd-wq/abdu/security/secret-scanning/unblock-secret/3MYgHBLEreTXEYNmd4nsFW7hogK
+    
+
+
+)
+error: failed to push some refs to 'https://github.com/b6dpg9zhhd-wq/abdu.git'
+Сайт обновлен
+OK: data.json обновлён; история графиков: 400 дней
+Нет изменений
+OK: data.json обновлён; история графиков: 400 дней
+Нет изменений
+OK: data.json обновлён; история графиков: 400 дней
+Нет изменений
+OK: data.json обновлён; история графиков: 400 дней
+Нет изменений
+OK: data.json обновлён; история графиков: 400 дней
