@@ -93877,3 +93877,85 @@ To https://github.com/b6dpg9zhhd-wq/abdu.git
 error: failed to push some refs to 'https://github.com/b6dpg9zhhd-wq/abdu.git'
 Сайт обновлен
 OK: data.json обновлён; история графиков: 400 дней
+[main ede9752] Auto-update 2026-11-24 19:14
+ Committer: root <root@node-38817.nodehost.ru>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 2 files changed, 83 insertions(+), 1 deletion(-)
+remote: error: GH013: Repository rule violations found for refs/heads/main.        
+remote: 
+remote: - GITHUB PUSH PROTECTION        
+remote:   —————————————————————————————————————————        
+remote:     Resolve the following violations before pushing again        
+remote: 
+remote:     - Push cannot contain secrets        
+remote: 
+remote:             
+remote:      (?) Learn how to resolve a blocked push        
+remote:      https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push        
+remote:             
+remote:             
+remote:       —— GitHub Personal Access Token ——————————————————————        
+remote:        locations:        
+remote:          - commit: 0f90e45ccce31bd60ecc4229f341626a6031a67b        
+remote:            path: update.log:90100        
+remote:          - commit: b284048ecb8e43212b40208e9b05e1775dcb516f        
+remote:            path: update.log:90100        
+remote:          - commit: 7dbe6779fca7fa222e56a533ef09bea262b61d73        
+remote:            path: update.log:90100        
+remote:          - commit: e9deef6db77d91f05dd2bbe18bee054f42fbcc5a        
+remote:            path: update.log:90100        
+remote:          - commit: 395d5a39b73880f82e97585a61c1767b462d0265        
+remote:            path: update.log:90100        
+remote:             
+remote:        (?) To push, remove secret from commit(s) or follow this URL to allow the secret.        
+remote:        https://github.com/b6dpg9zhhd-wq/abdu/security/secret-scanning/unblock-secret/3MYgHBLEreTXEYNmd4nsFW7hogK        
+remote:             
+remote: 
+remote: 
+To https://github.com/b6dpg9zhhd-wq/abdu.git
+ ! [remote rejected] main -> main (error: GH013: Repository rule violations found for refs/heads/main.
+
+- GITHUB PUSH PROTECTION
+  —————————————————————————————————————————
+    Resolve the following violations before pushing again
+
+    - Push cannot contain secrets
+
+    
+     (?) Learn how to resolve a blocked push
+     https://docs.github.com/code-security/secret-scanning/working-with-secret-scanning-and-push-protection/working-with-push-protection-from-the-command-line#resolving-a-blocked-push
+    
+    
+      —— GitHub Personal Access Token ——————————————————————
+       locations:
+         - commit: 0f90e45ccce31bd60ecc4229f341626a6031a67b
+           path: update.log:90100
+         - commit: b284048ecb8e43212b40208e9b05e1775dcb516f
+           path: update.log:90100
+         - commit: 7dbe6779fca7fa222e56a533ef09bea262b61d73
+           path: update.log:90100
+         - commit: e9deef6db77d91f05dd2bbe18bee054f42fbcc5a
+           path: update.log:90100
+         - commit: 395d5a39b73880f82e97585a61c1767b462d0265
+           path: update.log:90100
+    
+       (?) To push, remove secret from commit(s) or follow this URL to allow the secret.
+       https://github.com/b6dpg9zhhd-wq/abdu/security/secret-scanning/unblock-secret/3MYgHBLEreTXEYNmd4nsFW7hogK
+    
+
+
+)
+error: failed to push some refs to 'https://github.com/b6dpg9zhhd-wq/abdu.git'
+Сайт обновлен
+OK: data.json обновлён; история графиков: 400 дней
